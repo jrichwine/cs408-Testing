@@ -53,30 +53,12 @@ var checkAuth = function(req, res, next) {
 //Load Route Handlers
 app.use('/users' , checkAuth, userRoutes);
 
-app.get('/login', function(req, res) {
-    res.send('<form action="/login" method="post">'
-        + '<p>Email: <input type="text" name="email" placeholder="title" /></p>'
-        + '<p>Password: <input type="password" name="password" /></p>'
-        + '<p><input type="submit" value="login" /></p>'
-        + '</form>'
-    );
-});
 
 app.post('/login', passport.authenticate('local-login', {
         successRedirect : '/test/upload', // redirect to the secure profile section
         failureRedirect : '/signup', // redirect back to the signup page if there is an error
         failureFlash : true // allow flash messages
 }));
-
-app.get('/signup', function(req, res) {   
-    res.send(
-          '<form action="/signup" method="post">'
-        + '<p>Email: <input type="text" name="email" placeholder="email" /></p>'
-        + '<p>Password: <input type="password" name="password" /></p>'
-        + '<p><input type="submit" value="signup" /></p>'
-        + '</form>'
-    );
-});
 
 app.post('/signup', passport.authenticate('local-signup', {
         successRedirect : '/test/upload', // redirect to the secure profile section
