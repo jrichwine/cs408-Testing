@@ -36,6 +36,12 @@ app.get('/', function (request, response) {
     response.send('Hello, deadbeef');
 });
 
+//Testing working correctly
+app.get('/success', function (request, response) {
+    response.send('Success, deadbeef');
+});
+
+
 //Auth before proceeding
 var checkAuth = function(req, res, next) { 
     if (!req.isAuthenticated())  
@@ -54,14 +60,14 @@ var checkAuth = function(req, res, next) {
 app.use('/users' , checkAuth, userRoutes);
 
 
-app.post('/login', passport.authenticate('local-login', {
-        successRedirect : '/test/upload', // redirect to the secure profile section
-        failureRedirect : '/signup', // redirect back to the signup page if there is an error
-        failureFlash : true // allow flash messages
-}));
+app.post('/login',
+        passport.authenticate('local-login'),
+        function (req, res) {
+        res.send(200); }
+);
 
 app.post('/signup', passport.authenticate('local-signup', {
-        successRedirect : '/test/upload', // redirect to the secure profile section
+        successRedirect : '/success', // redirect to the secure profile section
         failureRedirect : '/signup', // redirect back to the signup page if there is an error
         failureFlash : true // allow flash messages
     }));
