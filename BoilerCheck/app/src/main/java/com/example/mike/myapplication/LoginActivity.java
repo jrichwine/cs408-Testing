@@ -4,6 +4,8 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.content.pm.PackageManager;
+import android.os.Looper;
+import android.preference.PreferenceActivity;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -19,6 +21,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -29,8 +32,18 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.PersistentCookieStore;
+import com.loopj.android.http.RequestParams;
+
 import java.util.ArrayList;
 import java.util.List;
+
+
+import cz.msebera.android.httpclient.Header;
+import cz.msebera.android.httpclient.cookie.Cookie;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
@@ -62,6 +75,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private View mProgressView;
     private View mLoginFormView;
 
+    //RESTClient
+    private AsyncHttpClient client;
+    PersistentCookieStore myCookieStore;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -92,6 +109,14 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
+
+        //Set up RESTClient
+        client = new AsyncHttpClient();
+        //Setup cookies for Client
+        myCookieStore = new PersistentCookieStore(this);
+        client.setCookieStore(myCookieStore);
+
+
     }
 
     private void populateAutoComplete() {
@@ -192,12 +217,14 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
     private boolean isEmailValid(String email) {
         //TODO: Replace this with your own logic
-        return email.contains("@");
+        //return email.contains("@");
+        return true;
     }
 
     private boolean isPasswordValid(String password) {
         //TODO: Replace this with your own logic
-        return password.length() > 4;
+        return true;
+        //return password.length() > 2;
     }
 
     /**
@@ -307,9 +334,57 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         @Override
         protected Boolean doInBackground(Void... params) {
             // TODO: attempt authentication against a network service.
-
             try {
-                // Simulate network access.
+
+
+                RequestParams rparams = new RequestParams();
+                rparams.put("email", mEmail);
+                rparams.put("password", mPassword);
+
+
+                    client.post("http://10.0.2.2:3000/login", rparams, new AsyncHttpResponseHandler(Looper.getMainLooper()) {
+
+                        @Override
+                        public void onStart() {
+                            // called before request is started
+                            Log.d("onSending", "Username:" + mEmail + " Password:" + mPassword);
+                        }
+
+                        @Override
+                        public void onSuccess(int statusCode, Header[] headers, byte[] response) {
+                            // called when response HTTP status is "200 OK"
+
+                            Log.d("onSuccess", "StatusCode:" + statusCode);
+                            for (Header head : headers) {
+                                Log.d("Headers", head.getName() + ":" + head.getValue());
+                            }
+
+                            for(Cookie c : myCookieStore.getCookies())
+                            {
+                                Log.d("Cookies", c.getName() + c.getValue());
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(int statusCode, Header[] headers, byte[] errorResponse, Throwable e) {
+                            // called when response HTTP status is "4XX" (eg. 401, 403, 404)
+                            Log.d("onFailure", "StatusCode:" + statusCode);
+                            for (Header head : headers) {
+                                Log.d("Headers", head.getName() + ":" + head.getValue());
+                            }
+
+                            for(Cookie c : myCookieStore.getCookies())
+                            {
+                                Log.d("Cookies", c.getName() + c.getValue());
+                            }
+
+                        }
+
+                        @Override
+                        public void onRetry(int retryNo) {
+                            // called when request is retried
+                        }
+                    });
                 Thread.sleep(2000);
             } catch (InterruptedException e) {
                 return false;
