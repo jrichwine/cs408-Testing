@@ -1,4 +1,4 @@
-package com.example.mike.myapplication;
+package com.cs408.team13.BoilerCheck;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

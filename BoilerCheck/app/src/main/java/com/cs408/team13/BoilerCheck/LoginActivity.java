@@ -1,4 +1,4 @@
-package com.example.mike.myapplication;
+package com.cs408.team13.BoilerCheck;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
