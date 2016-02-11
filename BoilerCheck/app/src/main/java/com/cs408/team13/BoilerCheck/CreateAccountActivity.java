@@ -3,23 +3,22 @@ package com.cs408.team13.BoilerCheck;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
-import android.app.LoaderManager.LoaderCallbacks;
-import android.content.CursorLoader;
-import android.content.Intent;
-import android.content.Loader;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
-import android.net.Uri;
-import android.os.AsyncTask;
-import android.os.Build;
-import android.os.Bundle;
-import android.os.Looper;
-import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.app.LoaderManager.LoaderCallbacks;
+
+import android.content.CursorLoader;
+import android.content.Loader;
+import android.database.Cursor;
+import android.net.Uri;
+import android.os.AsyncTask;
+
+import android.os.Build;
+import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -29,24 +28,15 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-
-import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.AsyncHttpResponseHandler;
-import com.loopj.android.http.PersistentCookieStore;
-import com.loopj.android.http.RequestParams;
-
 import java.util.ArrayList;
 import java.util.List;
-
-import cz.msebera.android.httpclient.Header;
-import cz.msebera.android.httpclient.cookie.Cookie;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
 /**
  * A login screen that offers login via email/password.
  */
-public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
+public class CreateAccountActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
 
     /**
      * Id to identity READ_CONTACTS permission request.
@@ -71,14 +61,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private View mProgressView;
     private View mLoginFormView;
 
-    //RESTClient
-    private AsyncHttpClient client;
-    PersistentCookieStore myCookieStore;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_create_account);
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();
@@ -105,19 +91,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
-
-        //Set up RESTClient
-        client = new AsyncHttpClient();
-        //Setup cookies for Client
-        myCookieStore = new PersistentCookieStore(this);
-        client.setCookieStore(myCookieStore);
-
-
-    }
-
-    public void registerAccount(View v) {
-        Intent intent = new Intent(this, CreateAccountActivity.class);
-        startActivity(intent);
     }
 
     private void populateAutoComplete() {
@@ -215,17 +188,14 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             mAuthTask.execute((Void) null);
         }
     }
-
     private boolean isEmailValid(String email) {
         //TODO: Replace this with your own logic
-        //return email.contains("@");
-        return true;
+        return email.contains("@");
     }
 
     private boolean isPasswordValid(String password) {
         //TODO: Replace this with your own logic
-        return true;
-        //return password.length() > 2;
+        return password.length() > 4;
     }
 
     /**
@@ -274,7 +244,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 // Select only email addresses.
                 ContactsContract.Contacts.Data.MIMETYPE +
                         " = ?", new String[]{ContactsContract.CommonDataKinds.Email
-                .CONTENT_ITEM_TYPE},
+                                                                     .CONTENT_ITEM_TYPE},
 
                 // Show primary email addresses first. Note that there won't be
                 // a primary email address if the user hasn't specified one.
@@ -298,16 +268,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
     }
 
-    private void addEmailsToAutoComplete(List<String> emailAddressCollection) {
-        //Create adapter to tell the AutoCompleteTextView what to show in its dropdown list.
-        ArrayAdapter<String> adapter =
-                new ArrayAdapter<>(LoginActivity.this,
-                        android.R.layout.simple_dropdown_item_1line, emailAddressCollection);
-
-        mEmailView.setAdapter(adapter);
-    }
-
-
     private interface ProfileQuery {
         String[] PROJECTION = {
                 ContactsContract.CommonDataKinds.Email.ADDRESS,
@@ -316,6 +276,16 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         int ADDRESS = 0;
         int IS_PRIMARY = 1;
+    }
+
+
+    private void addEmailsToAutoComplete(List<String> emailAddressCollection) {
+        //Create adapter to tell the AutoCompleteTextView what to show in its dropdown list.
+        ArrayAdapter<String> adapter =
+                new ArrayAdapter<>(CreateAccountActivity.this,
+                        android.R.layout.simple_dropdown_item_1line, emailAddressCollection);
+
+        mEmailView.setAdapter(adapter);
     }
 
     /**
@@ -335,57 +305,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         @Override
         protected Boolean doInBackground(Void... params) {
             // TODO: attempt authentication against a network service.
+
             try {
-
-
-                RequestParams rparams = new RequestParams();
-                rparams.put("email", mEmail);
-                rparams.put("password", mPassword);
-
-
-                    client.post("http://10.0.2.2:3000/login", rparams, new AsyncHttpResponseHandler(Looper.getMainLooper()) {
-
-                        @Override
-                        public void onStart() {
-                            // called before request is started
-                            Log.d("onSending", "Username:" + mEmail + " Password:" + mPassword);
-                        }
-
-                        @Override
-                        public void onSuccess(int statusCode, Header[] headers, byte[] response) {
-                            // called when response HTTP status is "200 OK"
-
-                            Log.d("onSuccess", "StatusCode:" + statusCode);
-                            for (Header head : headers) {
-                                Log.d("Headers", head.getName() + ":" + head.getValue());
-                            }
-
-                            for(Cookie c : myCookieStore.getCookies())
-                            {
-                                Log.d("Cookies", c.getName() + c.getValue());
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(int statusCode, Header[] headers, byte[] errorResponse, Throwable e) {
-                            // called when response HTTP status is "4XX" (eg. 401, 403, 404)
-                            Log.d("onFailure", "StatusCode:" + statusCode);
-                            for (Header head : headers) {
-                                Log.d("Headers", head.getName() + ":" + head.getValue());
-                            }
-
-                            for(Cookie c : myCookieStore.getCookies())
-                            {
-                                Log.d("Cookies", c.getName() + c.getValue());
-                            }
-
-                        }
-
-                        @Override
-                        public void onRetry(int retryNo) {
-                            // called when request is retried
-                        }
-                    });
+                // Simulate network access.
                 Thread.sleep(2000);
             } catch (InterruptedException e) {
                 return false;
