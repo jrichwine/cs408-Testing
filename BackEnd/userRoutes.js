@@ -11,7 +11,8 @@ userRoutes.post('/reset', function (request, response) {
 userRoutes.post('/checkin', function (request, response) {
     //Get GPS Coords from send data
     //match gps coords up to entries for buildings in database
-    
+    console.log("Checked In User:" + request.user.local.email);
+    response.sendStatus(200);
     //set current user location to building
     //update database statistics for that building
     //send data back

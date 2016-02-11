@@ -45,6 +45,7 @@ app.get('/success', function (request, response) {
 var checkAuth = function(req, res, next) { 
     if (!req.isAuthenticated())  
     {
+        console.log('Not Authenticated');
         res.sendStatus(401); 
     }
     else 
@@ -68,17 +69,20 @@ app.post('/login', function(req, res, next) {
            //Sucessfully created user
            if(user)
            {
-               res.sendStatus(200); 
+                req.logIn(user, function(err) 
+                {
+                    if (err) { return next(err); }
+                    return res.sendStatus(200);
+                    //return res.redirect('/users/' + user.username);
+                });
+               
            }
            else
            {
                res.sendStatus(400);
            }
            
-           /*req.logIn(user, function(err) {
-                if (err) { return next(err); }
-                return res.redirect('/users/' + user.username);
-                });*/
+        
            
         
   })(req, res, next);

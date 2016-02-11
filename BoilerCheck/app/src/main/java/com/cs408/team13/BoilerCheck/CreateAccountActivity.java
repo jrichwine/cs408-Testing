@@ -72,10 +72,6 @@ public class CreateAccountActivity extends AppCompatActivity implements LoaderCa
     private View mProgressView;
     private View mLoginFormView;
 
-    //RESTClient
-    private AsyncHttpClient client;
-    PersistentCookieStore myCookieStore;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -107,11 +103,6 @@ public class CreateAccountActivity extends AppCompatActivity implements LoaderCa
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
 
-        //Set up RESTClient
-        client = new AsyncHttpClient();
-        //Setup cookies for Client
-        myCookieStore = new PersistentCookieStore(this);
-        client.setCookieStore(myCookieStore);
     }
 
     private void populateAutoComplete() {
@@ -336,7 +327,7 @@ public class CreateAccountActivity extends AppCompatActivity implements LoaderCa
                 rparams.put("password", mPassword);
 
 
-                client.post("http://10.0.2.2:3000/signup", rparams, new AsyncHttpResponseHandler(Looper.getMainLooper()) {
+                BoilerCheck.RestClient.post("signup", rparams, new AsyncHttpResponseHandler(Looper.getMainLooper()) {
 
                     @Override
                     public void onStart() {
@@ -353,7 +344,7 @@ public class CreateAccountActivity extends AppCompatActivity implements LoaderCa
                             Log.d("Headers", head.getName() + ":" + head.getValue());
                         }
 
-                        for(Cookie c : myCookieStore.getCookies())
+                        for(Cookie c : BoilerCheck.myCookieStore.getCookies())
                         {
                             Log.d("Cookies", c.getName() + c.getValue());
                         }
@@ -391,15 +382,6 @@ public class CreateAccountActivity extends AppCompatActivity implements LoaderCa
                 return false;
             }
 
-            /*for (String credential : DUMMY_CREDENTIALS) {
-                String[] pieces = credential.split(":");
-                if (pieces[0].equals(mEmail)) {
-                    // Account exists, return true if the password matches.
-                    return pieces[1].equals(mPassword);
-                }
-            }*/
-
-            // TODO: register the new account here.
             return false;
         }
 

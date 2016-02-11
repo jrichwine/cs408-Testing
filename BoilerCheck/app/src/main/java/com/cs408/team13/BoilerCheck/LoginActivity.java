@@ -72,10 +72,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private View mProgressView;
     private View mLoginFormView;
 
-    //RESTClient
-    private AsyncHttpClient client;
-    PersistentCookieStore myCookieStore;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -109,13 +105,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
-
-        //Set up RESTClient
-        client = new AsyncHttpClient();
-        //Setup cookies for Client
-        myCookieStore = new PersistentCookieStore(this);
-        client.setCookieStore(myCookieStore);
-
 
     }
 
@@ -331,8 +320,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         private final String mEmail;
         private final String mPassword;
 
-        Context context;
-
         UserLoginTask(String email, String password) {
             mEmail = email;
             mPassword = password;
@@ -344,13 +331,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             // TODO: attempt authentication against a network service.
             try {
 
-
                 RequestParams rparams = new RequestParams();
                 rparams.put("email", mEmail);
                 rparams.put("password", mPassword);
 
-
-                    client.post("http://10.0.2.2:3000/login", rparams, new AsyncHttpResponseHandler(Looper.getMainLooper()) {
+                BoilerCheck.RestClient.post("login", rparams, new AsyncHttpResponseHandler(Looper.getMainLooper()) {
 
                         @Override
                         public void onStart() {
@@ -368,7 +353,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                                     Log.d("Headers", head.getName() + ":" + head.getValue());
                                 }
 
-                                for (Cookie c : myCookieStore.getCookies()) {
+                                for (Cookie c : BoilerCheck.myCookieStore.getCookies()) {
                                     Log.d("Cookies", c.getName() + c.getValue());
                                 }
                             }
@@ -387,7 +372,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                                     Log.d("Headers", head.getName() + ":" + head.getValue());
                                 }
 
-                                for (Cookie c : myCookieStore.getCookies()) {
+                                for (Cookie c : BoilerCheck.myCookieStore.getCookies()) {
                                     Log.d("Cookies", c.getName() + c.getValue());
                                 }
                             }
@@ -405,15 +390,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 return false;
             }
 
-            /*for (String credential : DUMMY_CREDENTIALS) {
-                String[] pieces = credential.split(":");
-                if (pieces[0].equals(mEmail)) {
-                    // Account exists, return true if the password matches.
-                    return pieces[1].equals(mPassword);
-                }
-            }*/
-
-            // TODO: register the new account here.
             return false;
         }
 
@@ -422,11 +398,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             mAuthTask = null;
             showProgress(false);
 
-            Log.d("Post Execute:", ":" + success);
-
             if (success) {
                 finish();
-
                 //Load next page
                 Intent intent_name = new Intent();
                 intent_name.setClass(getApplicationContext(), HomeActivity.class);
