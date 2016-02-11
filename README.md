@@ -16,3 +16,15 @@ multiple categories of buildings. Our program, the BoilerCheck Android app, will
 checkin
 and report conditions at popular buildings around campus. Users will also be able to
 view current statistics of the building before making a decision on where to go.
+
+##Backend Setup
+- Install MongoDB
+- Create folder on C: for db  example “c:/testingdb”
+- Navigate to mongo/bin folder
+- Run mongod –dbpath “c:/testingdb”
+- You should now see files populated in c:/testingdb
+- Install node
+- Clone the branch
+- from command line type: node index
+- You should see Middle-tier listening on port 3000
+- You can now go to localhost:3000 and see a message
