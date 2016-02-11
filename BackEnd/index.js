@@ -9,7 +9,6 @@ var passport     = require('passport');
 var flash        = require('connect-flash');
 
 mongoose.connect(config.mongodb);
-
 require('./config/passport')(passport);
 
 var app = express();
@@ -59,9 +58,9 @@ var checkAuth = function(req, res, next) {
 //Load Route Handlers
 app.use('/users' , checkAuth, userRoutes);
 
-
+//Change this later
 app.post('/login',
-        passport.authenticate('local-login'),
+        passport.authenticate('local-signup'),
         function (req, res) {
         res.send(200); }
 );
