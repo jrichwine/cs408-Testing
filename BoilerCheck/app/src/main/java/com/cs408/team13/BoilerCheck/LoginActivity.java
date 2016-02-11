@@ -364,6 +364,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                             {
                                 Log.d("Cookies", c.getName() + c.getValue());
                             }
+
+                            onPostExecute(true);
                         }
 
                         @Override
@@ -378,6 +380,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                             {
                                 Log.d("Cookies", c.getName() + c.getValue());
                             }
+
+                            onPostExecute(false);
 
                         }
 

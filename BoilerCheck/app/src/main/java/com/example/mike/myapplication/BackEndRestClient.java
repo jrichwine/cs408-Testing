@@ -24,7 +24,6 @@ public class BackEndRestClient {
         public static void setCookieStore(PersistentCookieStore cookie)
         {
             myCookieStore = cookie;
-
         }
 
         private static String getAbsoluteUrl(String relativeUrl) {
