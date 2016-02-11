@@ -59,17 +59,55 @@ var checkAuth = function(req, res, next) {
 app.use('/users' , checkAuth, userRoutes);
 
 //Change this later
-app.post('/login',
-        passport.authenticate('local-signup'),
-        function (req, res) {
-        res.send(200); }
-);
+app.post('/login', function(req, res, next) {
+        passport.authenticate('local-login', function (err, user, info) {
+           console.log("Error:" + err);
+           console.log("User:" + user);
+           console.log("Info:" + info);
 
-app.post('/signup', passport.authenticate('local-signup', {
-        successRedirect : '/success', // redirect to the secure profile section
-        failureRedirect : '/signup', // redirect back to the signup page if there is an error
-        failureFlash : true // allow flash messages
-    }));
+           //Sucessfully created user
+           if(user)
+           {
+               res.sendStatus(200); 
+           }
+           else
+           {
+               res.sendStatus(400);
+           }
+           
+           /*req.logIn(user, function(err) {
+                if (err) { return next(err); }
+                return res.redirect('/users/' + user.username);
+                });*/
+           
+        
+  })(req, res, next);
+});
+
+app.post('/signup', function(req, res, next) {
+        passport.authenticate('local-signup', function (err, user, info) {
+           console.log("Error:" + err);
+           console.log("User:" + user);
+           console.log("Info:" + info);
+
+           //Sucessfully created user
+           if(user)
+           {
+               res.sendStatus(200); 
+           }
+           else
+           {
+               res.sendStatus(400);
+           }
+           
+           /*req.logIn(user, function(err) {
+                if (err) { return next(err); }
+                return res.redirect('/users/' + user.username);
+                });*/
+           
+        
+  })(req, res, next);
+});
 
 app.listen(3000, function () {
     console.log('Middle-Tier Listening on Port 3000');

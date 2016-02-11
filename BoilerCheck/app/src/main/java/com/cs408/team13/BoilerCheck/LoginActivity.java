@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.LoaderManager.LoaderCallbacks;
+import android.content.Context;
 import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
@@ -96,12 +97,15 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         });
 
         Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
+
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
                 attemptLogin();
             }
         });
+
+
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
@@ -327,9 +331,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         private final String mEmail;
         private final String mPassword;
 
+        Context context;
+
         UserLoginTask(String email, String password) {
             mEmail = email;
             mPassword = password;
+            //this.context = context.getApplicationContext();
         }
 
         @Override
@@ -356,15 +363,15 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                             // called when response HTTP status is "200 OK"
 
                             Log.d("onSuccess", "StatusCode:" + statusCode);
-                            for (Header head : headers) {
-                                Log.d("Headers", head.getName() + ":" + head.getValue());
-                            }
+                            if(headers != null) {
+                                for (Header head : headers) {
+                                    Log.d("Headers", head.getName() + ":" + head.getValue());
+                                }
 
-                            for(Cookie c : myCookieStore.getCookies())
-                            {
-                                Log.d("Cookies", c.getName() + c.getValue());
+                                for (Cookie c : myCookieStore.getCookies()) {
+                                    Log.d("Cookies", c.getName() + c.getValue());
+                                }
                             }
-
                             onPostExecute(true);
                         }
 
@@ -372,15 +379,18 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                         public void onFailure(int statusCode, Header[] headers, byte[] errorResponse, Throwable e) {
                             // called when response HTTP status is "4XX" (eg. 401, 403, 404)
                             Log.d("onFailure", "StatusCode:" + statusCode);
-                            for (Header head : headers) {
-                                Log.d("Headers", head.getName() + ":" + head.getValue());
-                            }
 
-                            for(Cookie c : myCookieStore.getCookies())
+                            if(headers != null)
                             {
-                                Log.d("Cookies", c.getName() + c.getValue());
-                            }
 
+                                for (Header head : headers) {
+                                    Log.d("Headers", head.getName() + ":" + head.getValue());
+                                }
+
+                                for (Cookie c : myCookieStore.getCookies()) {
+                                    Log.d("Cookies", c.getName() + c.getValue());
+                                }
+                            }
                             onPostExecute(false);
 
                         }
@@ -395,16 +405,16 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 return false;
             }
 
-            for (String credential : DUMMY_CREDENTIALS) {
+            /*for (String credential : DUMMY_CREDENTIALS) {
                 String[] pieces = credential.split(":");
                 if (pieces[0].equals(mEmail)) {
                     // Account exists, return true if the password matches.
                     return pieces[1].equals(mPassword);
                 }
-            }
+            }*/
 
             // TODO: register the new account here.
-            return true;
+            return false;
         }
 
         @Override
@@ -412,11 +422,19 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             mAuthTask = null;
             showProgress(false);
 
+            Log.d("Post Execute:", ":" + success);
+
             if (success) {
                 finish();
+
+                //Load next page
+                Intent intent_name = new Intent();
+                intent_name.setClass(getApplicationContext(), HomeActivity.class);
+                startActivity(intent_name);
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
                 mPasswordView.requestFocus();
+
             }
         }
 
