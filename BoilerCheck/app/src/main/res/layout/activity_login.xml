@@ -75,7 +75,12 @@
                 android:textStyle="bold"
                 android:elegantTextHeight="false"
                 android:layout_marginLeft="50dp"
-                android:layout_marginRight="50dp" />
+                android:layout_marginRight="50dp"
+                android:background="#1a823f"
+                android:backgroundTint="#1ea64d"
+                android:focusableInTouchMode="false"
+                android:textColor="#fefefe"
+                android:shadowColor="#1b8440" />
 
             <Button
                 android:id="@+id/create_account_button"
@@ -85,7 +90,12 @@
                 android:layout_marginTop="16dp"
                 android:text="@string/action_create_account"
                 android:textStyle="bold"
-                android:onClick="registerAccount"/>
+                android:onClick="registerAccount"
+                android:layout_marginLeft="50dp"
+                android:layout_marginRight="50dp"
+                android:background="#c34731"
+                android:backgroundTint="#ec482d"
+                android:textColor="#fefefe" />
 
         </LinearLayout>
     </ScrollView>
