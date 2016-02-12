@@ -7,6 +7,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
+import android.view.View;
+import android.content.Intent;
 
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -28,6 +30,11 @@ public class HomeActivity extends AppCompatActivity  {
         mTextView = (TextView) findViewById(R.id.textView_home);
         mTextView.setText("hello");
         getData();
+    }
+
+    public void viewList(View v) {
+        Intent i = new Intent(this, ListActivity.class);
+        startActivity(i);
     }
     public void getData() {
 

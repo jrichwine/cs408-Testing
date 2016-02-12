@@ -16,4 +16,31 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/button_eat"
+        android:id="@+id/button_eat"
+        android:layout_above="@id/textView_home"
+        android:layout_centerHorizontal="true"
+        android:onClick="viewList"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/button_work"
+        android:id="@+id/button_work"
+        android:layout_below="@id/button_eat"
+        android:layout_centerHorizontal="true"
+        android:onClick="viewList" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/button_play"
+        android:id="@+id/button_play"
+        android:layout_below="@id/button_work"
+        android:layout_centerHorizontal="true"
+        android:onClick="viewList" />
 </RelativeLayout>
