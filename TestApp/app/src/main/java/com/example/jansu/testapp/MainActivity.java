@@ -76,6 +76,22 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                 .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
                 .setInterval(10000)
                 .setFastestInterval(1000);
+
+
+
+        Location locA = new Location("locA");
+        locA.setLatitude(38.898556);
+        locA.setLongitude(-77.037852);
+        Location locB = new Location("locB");
+        locB.setLatitude(38.897147);
+        locB.setLongitude(-77.043934);
+
+        double distance  = locA.distanceTo(locB);
+        Log.i("Distance in meters: ", distance + "");
+
+
+
+
     }
 
 
