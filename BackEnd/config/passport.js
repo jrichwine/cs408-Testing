@@ -57,8 +57,8 @@ module.exports = function(passport) {
 
             // check to see if theres already a user with that email
             if (user) {
-                console.log("User already exists");
-                return done(null, false);
+                var error = {ID: 1, message: "User Already Exists"};
+                return done(error, false);
             } else {
 
                 // if there is no user with that email
@@ -107,15 +107,17 @@ module.exports = function(passport) {
             // if no user is found, return the message
             if (!user)
             {
-                console.log("No User Exists");
-                return done(null, false, { message: "No user"}); // req.flash is the way to set flashdata using connect-flash
+                //console.log("No User Exists");
+                var error = {ID: 2, message: "No User Exists"};
+                return done(error, false); 
             }
                 
             // if the user is found but the password is wrong
             if (!user.validPassword(password))
             {
-                console.log("Invalid Password");
-                return done(null, false); // create the loginMessage and save it to session as flashdata
+               // console.log("Invalid Password");
+                var error = {ID: 3, message: "Invalid Password"};
+                return done(error, false); 
             }
 
             // all is well, return successful user
