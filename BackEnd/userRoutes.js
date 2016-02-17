@@ -24,22 +24,10 @@ userRoutes.get('/getBuildings', function (request, response) {
     
     //Read Building Data from Database
     buildingModel.collection.find().toArray(function (err, docs) {
-        
          response.send(docs);
-      // for(var i = 0; i < docs.length; i++)
-       //{
-       //    console.log("Element" + i + ":" + docs[i]);
-      // }
     });
-   /* currentData.each(function(doc, err)
-    {
-            console.log(doc);
-     });*/
-        
-    
-    //console.log(currentData);
 
-   
+
 });
 
 //Handle updated information sent every 15 minutes?
