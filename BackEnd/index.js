@@ -9,7 +9,7 @@ var passport     = require('passport');
 var flash        = require('connect-flash');
 
 //Get GPS Model
-var buildingModel         = require('./buildingModel');
+var buildingModel = require('./buildingModel');
 //Read in object from file
 var jsondata = require('./map.json');
 
@@ -80,57 +80,68 @@ var checkAuth = function(req, res, next) {
 //Load Route Handlers
 app.use('/users' , checkAuth, userRoutes);
 
-//Change this later
+//Login Route
 app.post('/login', function(req, res, next) {
-        passport.authenticate('local-login', function (err, user, info) {
-           console.log("Error:" + err);
-           console.log("User:" + user);
-           console.log("Info:" + info);
+        passport.authenticate('local-login', function (err, user) {
+           
 
-           //Sucessfully created user
+           //Sucessfully logged in user
            if(user)
            {
                 req.logIn(user, function(err) 
                 {
                     if (err) { return next(err); }
+                    
+                    console.log("Logged In User:" + user);
                     return res.sendStatus(200);
-                    //return res.redirect('/users/' + user.username);
                 });
-               
            }
            else
            {
-               res.sendStatus(400);
-           }
-           
-        
-           
-        
+               switch(err.ID)
+               {
+                   case 2:
+                            console.log(err.message);
+                            res.set({
+                            'error': 2
+                            });
+                            res.sendStatus(400);
+                            break;
+                   case 3:
+                            console.log(err.message);
+                            res.set({
+                            'error': 3
+                            });
+                            res.sendStatus(400);
+                            break;
+                  default:
+                            res.sendStatus(400);
+                            break;         
+               }
+           }     
   })(req, res, next);
 });
 
+
+//Create User Route
 app.post('/signup', function(req, res, next) {
         passport.authenticate('local-signup', function (err, user, info) {
-           console.log("Error:" + err);
-           console.log("User:" + user);
-           console.log("Info:" + info);
-
+         
            //Sucessfully created user
            if(user)
            {
+               console.log("Created User:" + user);
                res.sendStatus(200); 
            }
            else
            {
+               console.log(err.message);
+               res.set({
+                   'error': 1
+               });
                res.sendStatus(400);
            }
            
-           /*req.logIn(user, function(err) {
-                if (err) { return next(err); }
-                return res.redirect('/users/' + user.username);
-                });*/
-           
-        
   })(req, res, next);
 });
 
