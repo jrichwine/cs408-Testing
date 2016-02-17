@@ -8,10 +8,31 @@ var mongoose     = require('mongoose');
 var passport     = require('passport');
 var flash        = require('connect-flash');
 
+//Get GPS Model
+var buildingModel         = require('./buildingModel');
+//Read in object from file
+var jsondata = require('./map.json');
+
 mongoose.connect(config.mongodb);
 require('./config/passport')(passport);
 
 var app = express();
+
+//Remove previous entries
+buildingModel.collection.remove();
+//Insert data from json file
+buildingModel.collection.insert(jsondata.GPSData, onInsert);
+
+
+function onInsert(err, docs) {
+    if (err) {
+        console.log("Error on inserting Building Entries");
+    } else {
+        console.info('%d Building Entries added.', docs.insertedCount);
+    }
+}
+
+
 
 //Setup Express
 app.use(morgan('dev')); // log every request to the console
