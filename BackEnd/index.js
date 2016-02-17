@@ -92,7 +92,7 @@ app.post('/login', function(req, res, next) {
                 {
                     if (err) { return next(err); }
                     
-                    console.log("Logged In User:" + user);
+                    console.log("Logged In User:" + user.local.email);
                     return res.sendStatus(200);
                 });
            }
@@ -125,7 +125,7 @@ app.post('/login', function(req, res, next) {
 
 //Create User Route
 app.post('/signup', function(req, res, next) {
-        passport.authenticate('local-signup', function (err, user, info) {
+        passport.authenticate('local-signup', function (err, user) {
          
            //Sucessfully created user
            if(user)

@@ -1,4 +1,5 @@
 var express = require('express');
+var buildingModel = require('./buildingModel');
 
 var userRoutes = module.exports = express();
 
@@ -9,13 +10,36 @@ userRoutes.post('/reset', function (request, response) {
 
 //Handle Checkin Request
 userRoutes.post('/checkin', function (request, response) {
-    //Get GPS Coords from send data
-    //match gps coords up to entries for buildings in database
     console.log("Checked In User:" + request.user.local.email);
     response.sendStatus(200);
     //set current user location to building
     //update database statistics for that building
     //send data back
+});
+
+
+//Handle After Authentication
+userRoutes.get('/getBuildings', function (request, response) {
+    console.log("Getting Buildings For:" + request.user.local.email);
+    
+    //Read Building Data from Database
+    buildingModel.collection.find().toArray(function (err, docs) {
+        
+         response.send(docs);
+      // for(var i = 0; i < docs.length; i++)
+       //{
+       //    console.log("Element" + i + ":" + docs[i]);
+      // }
+    });
+   /* currentData.each(function(doc, err)
+    {
+            console.log(doc);
+     });*/
+        
+    
+    //console.log(currentData);
+
+   
 });
 
 //Handle updated information sent every 15 minutes?

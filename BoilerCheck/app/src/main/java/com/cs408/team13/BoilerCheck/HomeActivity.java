@@ -6,10 +6,12 @@ import android.os.Looper;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Button;
 import android.widget.TextView;
 import android.view.View;
 import android.content.Intent;
 
+import com.google.gson.Gson;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
@@ -21,6 +23,8 @@ import cz.msebera.android.httpclient.cookie.Cookie;
 public class HomeActivity extends AppCompatActivity  {
 
     private TextView mTextView;
+    private Button mEATBUTTON;
+    private Button mWORKBUTTON;
     private GetTestData mAuthTask = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +33,10 @@ public class HomeActivity extends AppCompatActivity  {
 
         mTextView = (TextView) findViewById(R.id.textView_home);
         mTextView.setText("hello");
+
+        mEATBUTTON = (Button) findViewById(R.id.button_eat);
+        mWORKBUTTON = (Button) findViewById(R.id.button_work);
+
         getData();
     }
 
@@ -54,14 +62,13 @@ public class HomeActivity extends AppCompatActivity  {
 
                 RequestParams rparams = new RequestParams();
 
-                BoilerCheck.RestClient.post("users/checkin", rparams, new AsyncHttpResponseHandler(Looper.getMainLooper()) {
+                BoilerCheck.RestClient.get("users/getBuildings", rparams, new AsyncHttpResponseHandler(Looper.getMainLooper()) {
 
                     @Override
                     public void onStart() {
                         // called before request is started
                         List<Cookie> cookies = BoilerCheck.myCookieStore.getCookies();
-                        for(int i = 0; i< cookies.size(); i++)
-                        {
+                        for (int i = 0; i < cookies.size(); i++) {
                             Log.d("Saved Cookies: ", ":" + cookies.get(i));
                         }
                     }
@@ -71,7 +78,7 @@ public class HomeActivity extends AppCompatActivity  {
                         // called when response HTTP status is "200 OK"
 
                         Log.d("onSuccess", "StatusCode:" + statusCode);
-                        if(headers != null) {
+                        if (headers != null) {
                             for (Header head : headers) {
                                 Log.d("Headers", head.getName() + ":" + head.getValue());
                             }
@@ -80,7 +87,30 @@ public class HomeActivity extends AppCompatActivity  {
                                 Log.d("Cookies", c.getName() + c.getValue());
                             }
                         }
-                        onPostExecute(true);
+
+
+
+                        try {
+                            Gson gson = new Gson();
+                            String dataResponse = "";
+                            String formattedResponse = "";
+
+                            dataResponse = new String(response, "UTF-8");
+                            formattedResponse = "{ Buildings:" + dataResponse + "}";
+                            Log.d("Data returned", formattedResponse);
+
+                            BoilerCheck.loadedBuildings = gson.fromJson(formattedResponse, Buildings.class);
+
+                            mEATBUTTON.setText(BoilerCheck.loadedBuildings.Buildings[0].BuildingName);
+                            mWORKBUTTON.setText(BoilerCheck.loadedBuildings.Buildings[1].BuildingName);
+
+                            onPostExecute(true);
+                        }
+                        catch (Exception e)
+                        {
+                            Log.d("ERROR", "Error parsing returned data");
+                            onPostExecute(false);
+                        }
                     }
 
                     @Override
@@ -88,8 +118,7 @@ public class HomeActivity extends AppCompatActivity  {
                         // called when response HTTP status is "4XX" (eg. 401, 403, 404)
                         Log.d("onFailure", "StatusCode:" + statusCode);
 
-                        if(headers != null)
-                        {
+                        if (headers != null) {
 
                             for (Header head : headers) {
                                 Log.d("Headers", head.getName() + ":" + head.getValue());
