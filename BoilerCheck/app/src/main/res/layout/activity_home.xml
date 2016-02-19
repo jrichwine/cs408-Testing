@@ -42,5 +42,5 @@
         android:id="@+id/button_play"
         android:layout_below="@id/button_work"
         android:layout_centerHorizontal="true"
-        android:onClick="viewList" />
+        android:onClick="sendCheckIn" />
 </RelativeLayout>
