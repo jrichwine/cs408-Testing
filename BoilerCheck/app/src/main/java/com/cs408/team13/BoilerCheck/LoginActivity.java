@@ -385,7 +385,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                             // called when request is retried
                         }
                     });
-                Thread.sleep(2000);
+                Thread.sleep(200);
             } catch (InterruptedException e) {
                 return false;
             }
