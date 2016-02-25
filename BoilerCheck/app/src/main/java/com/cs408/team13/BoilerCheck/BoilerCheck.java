@@ -13,6 +13,8 @@ public class BoilerCheck extends Application {
     public static BackEndRestClient RestClient;
     public static PersistentCookieStore myCookieStore;
 
+    public static Buildings loadedBuildings;
+
     @Override
     public void onCreate()
     {

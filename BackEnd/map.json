@@ -1,0 +1,12 @@
+{ "GPSData": [
+    {"BuildingName": "COREC",  "Category": "recreation", "Coordinates": [-44.446, 88.6777], "TotalCapacity": 10, "CurrentCapacity": 0},
+    {"BuildingName": "Lawson",  "Category": "study", "Coordinates": [-73.9691347, 40.6389857], "TotalCapacity": 10, "CurrentCapacity": 0},
+    {"BuildingName": "Math",    "Category": "study", "Coordinates": [-74.66666, 30.454555], "TotalCapacity": 20, "CurrentCapacity": 0},
+    {"BuildingName": "WileyCourt", "Category": "eating", "Coordinates": [45.666, 67.777777], "TotalCapacity": 200, "CurrentCapacity": 0} 
+    
+]}
+    
+
+
+
+

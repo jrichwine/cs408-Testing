@@ -8,10 +8,31 @@ var mongoose     = require('mongoose');
 var passport     = require('passport');
 var flash        = require('connect-flash');
 
+//Get GPS Model
+var buildingModel = require('./buildingModel');
+//Read in object from file
+var jsondata = require('./map.json');
+
 mongoose.connect(config.mongodb);
 require('./config/passport')(passport);
 
 var app = express();
+
+//Remove previous entries
+buildingModel.collection.remove();
+//Insert data from json file
+buildingModel.collection.insert(jsondata.GPSData, onInsert);
+
+
+function onInsert(err, docs) {
+    if (err) {
+        console.log("Error on inserting Building Entries");
+    } else {
+        console.info('%d Building Entries added.', docs.insertedCount);
+    }
+}
+
+
 
 //Setup Express
 app.use(morgan('dev')); // log every request to the console
@@ -59,57 +80,68 @@ var checkAuth = function(req, res, next) {
 //Load Route Handlers
 app.use('/users' , checkAuth, userRoutes);
 
-//Change this later
+//Login Route
 app.post('/login', function(req, res, next) {
-        passport.authenticate('local-login', function (err, user, info) {
-           console.log("Error:" + err);
-           console.log("User:" + user);
-           console.log("Info:" + info);
+        passport.authenticate('local-login', function (err, user) {
+           
 
-           //Sucessfully created user
+           //Sucessfully logged in user
            if(user)
            {
                 req.logIn(user, function(err) 
                 {
                     if (err) { return next(err); }
+                    
+                    console.log("Logged In User:" + user.local.email);
                     return res.sendStatus(200);
-                    //return res.redirect('/users/' + user.username);
                 });
-               
            }
            else
            {
-               res.sendStatus(400);
-           }
-           
-        
-           
-        
+               switch(err.ID)
+               {
+                   case 2:
+                            console.log(err.message);
+                            res.set({
+                            'error': 2
+                            });
+                            res.sendStatus(400);
+                            break;
+                   case 3:
+                            console.log(err.message);
+                            res.set({
+                            'error': 3
+                            });
+                            res.sendStatus(400);
+                            break;
+                  default:
+                            res.sendStatus(400);
+                            break;         
+               }
+           }     
   })(req, res, next);
 });
 
-app.post('/signup', function(req, res, next) {
-        passport.authenticate('local-signup', function (err, user, info) {
-           console.log("Error:" + err);
-           console.log("User:" + user);
-           console.log("Info:" + info);
 
+//Create User Route
+app.post('/signup', function(req, res, next) {
+        passport.authenticate('local-signup', function (err, user) {
+         
            //Sucessfully created user
            if(user)
            {
+               console.log("Created User:" + user);
                res.sendStatus(200); 
            }
            else
            {
+               console.log(err.message);
+               res.set({
+                   'error': 1
+               });
                res.sendStatus(400);
            }
            
-           /*req.logIn(user, function(err) {
-                if (err) { return next(err); }
-                return res.redirect('/users/' + user.username);
-                });*/
-           
-        
   })(req, res, next);
 });
 
