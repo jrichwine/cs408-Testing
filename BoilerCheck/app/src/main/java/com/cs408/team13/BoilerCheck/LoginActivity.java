@@ -399,6 +399,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             showProgress(false);
 
             if (success) {
+                SaveSharedPreference.setUserName(LoginActivity.this, mEmail);
                 finish();
                 //Load next page
                 Intent intent_name = new Intent();

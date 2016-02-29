@@ -9,7 +9,6 @@ import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
 import android.view.View;
-import android.content.Intent;
 
 import com.google.gson.Gson;
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -26,10 +25,16 @@ public class HomeActivity extends AppCompatActivity  {
     private Button mEATBUTTON;
     private Button mWORKBUTTON;
     private GetTestData mAuthTask = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+        if(SaveSharedPreference.getUserName(HomeActivity.this).length() == 0) {
+            Intent i = new Intent(this, LoginActivity.class);
+            startActivity(i);
+        }
 
         mTextView = (TextView) findViewById(R.id.textView_home);
         mTextView.setText("hello");
