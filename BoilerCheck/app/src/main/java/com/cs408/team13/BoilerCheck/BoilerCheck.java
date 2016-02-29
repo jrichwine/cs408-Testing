@@ -12,7 +12,7 @@ public class BoilerCheck extends Application {
     //RESTClient
     public static BackEndRestClient RestClient;
     public static PersistentCookieStore myCookieStore;
-
+    public static LocationService locationService;
     public static Buildings loadedBuildings;
 
     @Override
@@ -22,5 +22,6 @@ public class BoilerCheck extends Application {
         RestClient = new BackEndRestClient();
         myCookieStore = new PersistentCookieStore(this);
         RestClient.setCookieStore(myCookieStore);
+        locationService = new LocationService(this);
     }
 }
