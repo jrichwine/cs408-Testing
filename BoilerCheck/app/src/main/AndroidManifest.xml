@@ -29,7 +29,7 @@
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
-                <category android:name="android.intent.category.DEFAULT" />
+                <!--<category android:name="android.intent.category.DEFAULT" />-->
                 <category android:name="android.intent.category.BROWSABLE" />
                 <!-- ATTENTION: This data URL was auto-generated. We recommend that you use the HTTP scheme.
                   TODO: Change the host or pathPrefix as necessary. -->
@@ -43,7 +43,6 @@
             android:name=".CreateAccountActivity"
             android:label="@string/title_activity_create_account"
             android:windowSoftInputMode="stateVisible|adjustPan"/>
-
         <activity
             android:name=".HomeActivity"
             android:windowSoftInputMode="stateVisible|adjustPan">
