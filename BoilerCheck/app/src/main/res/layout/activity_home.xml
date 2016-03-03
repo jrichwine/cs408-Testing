@@ -7,7 +7,8 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.cs408.team13.BoilerCheck.HomeActivity">
+    tools:context="com.cs408.team13.BoilerCheck.HomeActivity"
+    android:background="@drawable/background">
 
     <TextView
         android:id="@+id/textView_home"
@@ -17,30 +18,84 @@
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/button_eat"
-        android:id="@+id/button_eat"
-        android:layout_above="@id/textView_home"
-        android:layout_centerHorizontal="true"
-        android:onClick="viewList"/>
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="bottom">
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/button_work"
-        android:id="@+id/button_work"
-        android:layout_below="@id/button_eat"
-        android:layout_centerHorizontal="true"
-        android:onClick="viewList" />
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/button_play"
-        android:id="@+id/button_play"
-        android:layout_below="@id/button_work"
-        android:layout_centerHorizontal="true"
-        android:onClick="sendCheckIn" />
+            <Button
+                android:layout_width="140dp"
+                android:layout_height="186dp"
+                android:id="@+id/button_play"
+                android:onClick="viewList"
+                android:background="@drawable/play"
+                android:layout_marginRight="-10dp" />
+
+            <Button
+                android:layout_width="140dp"
+                android:layout_height="186dp"
+                android:id="@+id/button_work"
+                android:onClick="viewList"
+                android:background="@drawable/work"
+                android:layout_marginLeft="-20dp"
+                android:layout_marginRight="-20dp" />
+
+            <Button
+                android:layout_width="140dp"
+                android:layout_height="186dp"
+                android:id="@+id/button_eat"
+                android:onClick="viewList"
+                android:background="@drawable/eat"
+                android:layout_marginLeft="-20dp"
+                android:visibility="visible" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="140dp"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="@string/button_play"
+                android:id="@+id/textView"
+                android:textSize="30sp"
+                android:layout_marginLeft="-20dp"
+                android:layout_marginRight="-10dp"
+                android:gravity="center"
+                android:textColor="#ffffff" />
+
+            <TextView
+                android:layout_width="140dp"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="@string/button_work"
+                android:id="@+id/textView2"
+                android:textSize="30sp"
+                android:layout_marginLeft="-10dp"
+                android:gravity="center_horizontal"
+                android:textColor="#ffffff" />
+
+            <TextView
+                android:layout_width="140dp"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="@string/button_eat"
+                android:id="@+id/textView3"
+                android:textSize="30sp"
+                android:layout_marginLeft="-20dp"
+                android:layout_marginRight="-10dp"
+                android:gravity="center_horizontal"
+                android:textColor="#ffffff" />
+        </LinearLayout>
+    </LinearLayout>
 </RelativeLayout>
