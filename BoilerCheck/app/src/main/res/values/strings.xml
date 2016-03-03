@@ -20,4 +20,7 @@
     <string name="button_eat">Eat</string>
     <string name="button_work">Work</string>
     <string name="button_play">Play</string>
+    <string name="eat_filter">eating</string>
+    <string name="work_filter">study</string>
+    <string name="play_filter">recreation</string>
 </resources>

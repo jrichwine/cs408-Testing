@@ -23,8 +23,9 @@ import cz.msebera.android.httpclient.cookie.Cookie;
 public class HomeActivity extends AppCompatActivity  {
 
     private TextView mTextView;
-    private Button mEATBUTTON;
-    private Button mWORKBUTTON;
+    private Button mEatButton;
+    private Button mStudyButton;
+    private Button mPlayButton;
     private GetTestData mAuthTask = null;
     private CheckIn mCheckInTask = null;
     @Override
@@ -33,12 +34,18 @@ public class HomeActivity extends AppCompatActivity  {
         setContentView(R.layout.activity_home);
 
         mTextView = (TextView) findViewById(R.id.textView_home);
+        mEatButton = (Button) findViewById(R.id.button_eat);
+        mStudyButton = (Button) findViewById(R.id.button_work);
+        mPlayButton = (Button) findViewById(R.id.button_play);
+        mEatButton.setTag(R.string.eat_filter);
+        mStudyButton.setTag(R.string.work_filter);
+        mPlayButton.setTag(R.string.play_filter);
 
         getData();
     }
 
     public void viewList(View v) {
-        Intent i = new Intent(this, ListActivity.class);
+        Intent i = new Intent(this, ListActivity.class).putExtra("filter", (int)v.getTag());
         startActivity(i);
     }
 
