@@ -1,122 +1,101 @@
 var express = require('express');
 var buildingModel = require('./buildingModel');
-
-var User            = require('./userModel');
-var buildingModel = require('./buildingModel');
+var User = require('./userModel');
 
 var userRoutes = module.exports = express();
 
-//Handle User Reset Password
-userRoutes.post('/reset', function (request, response) {
-    response.send('Hello World');
-});
-
 //Handle Checkin Request
 userRoutes.post('/checkin', function (request, response) {
-    //console.log(request.body);
-    //console.log("Checked In User:" + request.user.local.email);
-    
-    
-    //Todo
-    //Add error handling if already checked in?? or handle that in the app?
-    
-    
-    User.findOne({'local.email': request.user.local.email}, function(err, user){
-        
+
+    User.findOne({ 'local.email': request.user.local.email }, function (err, user) {
+
         user.local.building = request.body.building;
         user.local.checkTime = Date.now();
-        user.save(function(err) {
-                    if (err)
-                        throw err;
-                    else
-                        {
-                            console.log("Check In User: " + request.user.local.email + "\nAt: " + user.local.checkTime + "\nTo: " + user.local.building);
-                            
-                            updateCapacity(user.local.building);
-                            response.sendStatus(200);
-                        }
-                });
+
+        user.save(function (err) {
+            if (err)
+                throw err;
+            else {
+                console.log("Check In User: " + request.user.local.email + "\nAt: " + user.local.checkTime + "\nTo: " + user.local.building);
+
+                updateCapacity(user.local.building, true);
+                response.sendStatus(200);
+            }
+        });
     });
-    
 });
 
 
-//Handle user logout
-userRoutes.post('/checkOut', function (request, response) {
-    //Checkout if in current location
-    
-    //Destroy current session
-    request.logOut();
-    response.send(200);
+//Handle CheckOut
+userRoutes.get('/checkOut', function (request, response) {
+
+    User.findOne({ 'local.email': request.user.local.email }, function (err, user) {
+
+        var building = user.local.building;
+        user.local.checkTime = null;
+        user.local.building = null;
+
+        user.save(function (err) {
+            if (err)
+                throw err;
+            else {
+                console.log("Checked Out User: " + request.user.local.email + "\nFrom: " + building);
+
+                updateCapacity(building, false);
+                response.sendStatus(200);
+            }
+        });
+    });
 });
 
 
-//Handle user logout
-userRoutes.post('/refreshCapacity', function (request, response) {
+//Send updated building statistics to App
+userRoutes.get('/refreshCapacity', function (request, response) {
 
-    //Have an async task on app that fires every so often to get currentCapacity for buildings?
+    console.log("Refreshing Current Capacities For:" + request.user.local.email);
     
-    //Destroy current session
-    request.logOut();
-    response.send(200);
+    //Read Total Capacity from DB
+    buildingModel.collection.find({}, { CurrentCapacity: true }).toArray(function (err, docs) {
+        response.send(docs);
+    });
 });
 
 
-
-
-
-
-
-
-//Handle After Authentication
+//Get all buildings from the database and send to the App
 userRoutes.get('/getBuildings', function (request, response) {
+
     console.log("Getting Buildings For:" + request.user.local.email);
     
     //Read Building Data from Database
     buildingModel.collection.find().toArray(function (err, docs) {
-         response.send(docs);
+        response.send(docs);
     });
-
-
 });
 
-//Handle updated information sent every 15 minutes?
-userRoutes.post('/updatelocation', function (request, response) {
-    //Get GPS Coords from sent data
-    //Compare to previously saved user building
-    //if different, checkout of that building
-    //calculate to see if somewhere else
-    //send database
-});
 
 //Handle user logout
 userRoutes.post('/logout', function (request, response) {
-    //Checkout if in current location
-    
+    //Assumed checkout already called from app
     //Destroy current session
     request.logOut();
     response.send(200);
 });
 
+//Update building capacity in database
+function updateCapacity(buildingName, status) {
+    buildingModel.findOne({ 'BuildingName': buildingName }, function (err, building) {
 
-function updateCapacity(buildingName)
-{
-    buildingModel.findOne({'BuildingName': buildingName}, function(err, building) {
-        
-        building.CurrentCapacity += 1;
-        building.save(function(err) {
-                if (err)
-                        throw err;
-                    else
-                        {
-                            console.log("Updated Current Capacity of: " + building.BuildingName + " To: " + building.CurrentCapacity);
-                        }
-                });
+        if (status == true)
+            building.CurrentCapacity += 1;
+        else
+            building.CurrentCapacity -= 1;
+
+        building.save(function (err) {
+            if (err)
+                throw err;
+            else {
+                console.log("Updated Current Capacity of: " + building.BuildingName + " To: " + building.CurrentCapacity);
+            }
+        });
     });
-    
 }
-
-
-
-
-
