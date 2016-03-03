@@ -16,7 +16,7 @@ userRoutes.post('/checkin', function (request, response) {
             if (err)
                 throw err;
             else {
-                console.log("Check In User: " + request.user.local.email + "\nAt: " + user.local.checkTime + "\nTo: " + user.local.building);
+                console.log("Check In User: " + request.user.local.email + " To: " + user.local.building);
 
                 updateCapacity(user.local.building, true);
                 response.sendStatus(200);
@@ -39,7 +39,7 @@ userRoutes.get('/checkOut', function (request, response) {
             if (err)
                 throw err;
             else {
-                console.log("Checked Out User: " + request.user.local.email + "\nFrom: " + building);
+                console.log("Checked Out User: " + request.user.local.email + " From: " + building);
 
                 updateCapacity(building, false);
                 response.sendStatus(200);

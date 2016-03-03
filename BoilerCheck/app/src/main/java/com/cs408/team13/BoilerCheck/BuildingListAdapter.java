@@ -21,6 +21,11 @@ public class BuildingListAdapter extends BaseAdapter {
     public int filt;
     public ArrayList<Building> build;
 
+    private CheckInTask mCheckInTask = null;
+
+    private CheckOutTask mCheckOutTask = null;
+    private RefreshCapacityTask mRefreshCapacityTask = null;
+
     public BuildingListAdapter(Context ctx, int filt) {
         this.ctx = ctx;
         this.filt = filt;
@@ -81,7 +86,38 @@ public class BuildingListAdapter extends BaseAdapter {
             holder.checkIn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(view.getContext(), build.get(final_position).BuildingName, Toast.LENGTH_SHORT).show();
+
+                    String currentBuilding = build.get(final_position).BuildingName;
+                    Toast.makeText(view.getContext(), "Trying to CheckIn to:" + currentBuilding, Toast.LENGTH_SHORT).show();
+
+                    //Send building to see if it is close enough to user to be checked in
+                    //If not close enough, return message saying so and keep trying until can check in?
+
+                    //If close enough, send building to checkin Route
+                    mCheckInTask = new CheckInTask(currentBuilding, view.getContext());
+                    mCheckInTask.execute((Void) null);
+
+                    try{
+                        Thread.sleep(500);
+                    } catch (Exception e)
+                    {
+
+                    }
+                    //Test Checkout
+                    //mCheckOutTask = new CheckOutTask(view.getContext());
+                    //mCheckOutTask.execute((Void) null);
+
+                    try{
+                        Thread.sleep(500);
+                    } catch (Exception e)
+                    {
+
+                    }
+
+                    //Test Refresh
+                    mRefreshCapacityTask = new RefreshCapacityTask(view.getContext());
+                    mRefreshCapacityTask.execute((Void) null);
+
                 }
             });
         } else {

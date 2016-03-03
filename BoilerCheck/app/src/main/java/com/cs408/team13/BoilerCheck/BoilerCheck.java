@@ -14,6 +14,7 @@ public class BoilerCheck extends Application {
     public static PersistentCookieStore myCookieStore;
     public static LocationService locationService;
     public static Buildings loadedBuildings;
+    public static String CurrentBuilding = null;
 
     @Override
     public void onCreate()
