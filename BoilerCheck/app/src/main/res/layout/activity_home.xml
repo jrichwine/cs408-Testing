@@ -35,7 +35,6 @@
                 android:id="@+id/button_play"
                 android:onClick="viewList"
                 android:background="@drawable/play"
-                android:layout_marginLeft="-20dp"
                 android:layout_marginRight="-10dp" />
 
             <Button
@@ -44,7 +43,8 @@
                 android:id="@+id/button_work"
                 android:onClick="viewList"
                 android:background="@drawable/work"
-                android:layout_marginLeft="-10dp" />
+                android:layout_marginLeft="-20dp"
+                android:layout_marginRight="-20dp" />
 
             <Button
                 android:layout_width="140dp"
@@ -53,9 +53,7 @@
                 android:onClick="viewList"
                 android:background="@drawable/eat"
                 android:layout_marginLeft="-20dp"
-                android:layout_marginRight="-10dp"
-                android:visibility="visible"
-                android:layout_marginTop="6dp" />
+                android:visibility="visible" />
 
         </LinearLayout>
 
