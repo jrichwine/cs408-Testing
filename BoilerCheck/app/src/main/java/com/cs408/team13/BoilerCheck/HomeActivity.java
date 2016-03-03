@@ -33,10 +33,6 @@ public class HomeActivity extends AppCompatActivity  {
         setContentView(R.layout.activity_home);
 
         mTextView = (TextView) findViewById(R.id.textView_home);
-        mTextView.setText("hello");
-
-        //mEATBUTTON = (Button) findViewById(R.id.button_eat);
-        //mWORKBUTTON = (Button) findViewById(R.id.button_work);
 
         getData();
     }
@@ -174,15 +170,8 @@ public class HomeActivity extends AppCompatActivity  {
     }
 
 
-
-
-
-
-
-
     public class CheckIn extends AsyncTask<Void, Void, Boolean>
     {
-
         @Override
         protected Boolean doInBackground(Void... params) {
             // TODO: attempt authentication against a network service.
@@ -194,14 +183,6 @@ public class HomeActivity extends AppCompatActivity  {
 
                 BoilerCheck.RestClient.post("users/checkin", rparams, new AsyncHttpResponseHandler(Looper.getMainLooper()) {
 
-                    @Override
-                    public void onStart() {
-                        // called before request is started
-                       // List<Cookie> cookies = BoilerCheck.myCookieStore.getCookies();
-                       // for (int i = 0; i < cookies.size(); i++) {
-                       //     Log.d("Saved Cookies: ", ":" + cookies.get(i));
-                      //  }
-                    }
 
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, byte[] response)
@@ -209,47 +190,14 @@ public class HomeActivity extends AppCompatActivity  {
                         // called when response HTTP status is "200 OK"
 
                         Log.d("onSuccess", "StatusCode:" + statusCode);
-                        if (headers != null) {
-                            for (Header head : headers) {
-                                Log.d("Headers", head.getName() + ":" + head.getValue());
-                            }
-
-                            for (Cookie c : BoilerCheck.myCookieStore.getCookies()) {
-                                Log.d("Cookies", c.getName() + c.getValue());
-                            }
-                        }
-                        try{
-                            onPostExecute(true);
-                        }
-                        catch (Exception e)
-                        {
-                            Log.d("ERROR", "Error parsing returned data");
-                            onPostExecute(false);
-                        }
+                        onPostExecute(true);
                     }
 
                     @Override
                     public void onFailure(int statusCode, Header[] headers, byte[] errorResponse, Throwable e) {
                         // called when response HTTP status is "4XX" (eg. 401, 403, 404)
-                        Log.d("onFailure", "StatusCode:" + statusCode);
-
-                        if (headers != null) {
-
-                            for (Header head : headers) {
-                                Log.d("Headers", head.getName() + ":" + head.getValue());
-                            }
-
-                            for (Cookie c : BoilerCheck.myCookieStore.getCookies()) {
-                                Log.d("Cookies", c.getName() + c.getValue());
-                            }
-                        }
+                        Log.d("onError", "StatusCode:" + statusCode);
                         onPostExecute(false);
-
-                    }
-
-                    @Override
-                    public void onRetry(int retryNo) {
-                        // called when request is retried
                     }
                 });
                 Thread.sleep(200);

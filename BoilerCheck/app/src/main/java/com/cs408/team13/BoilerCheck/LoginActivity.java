@@ -348,7 +348,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                             // called when response HTTP status is "200 OK"
 
                             Log.d("onSuccess", "StatusCode:" + statusCode);
-                            if(headers != null) {
+                            /*if(headers != null) {
                                 for (Header head : headers) {
                                     Log.d("Headers", head.getName() + ":" + head.getValue());
                                 }
@@ -356,7 +356,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                                 for (Cookie c : BoilerCheck.myCookieStore.getCookies()) {
                                     Log.d("Cookies", c.getName() + c.getValue());
                                 }
-                            }
+                            }*/
                             onPostExecute(true);
                         }
 
@@ -365,7 +365,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                             // called when response HTTP status is "4XX" (eg. 401, 403, 404)
                             Log.d("onFailure", "StatusCode:" + statusCode);
 
-                            if(headers != null)
+                            /*if(headers != null)
                             {
 
                                 for (Header head : headers) {
@@ -375,7 +375,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                                 for (Cookie c : BoilerCheck.myCookieStore.getCookies()) {
                                     Log.d("Cookies", c.getName() + c.getValue());
                                 }
-                            }
+                            }*/
                             onPostExecute(false);
 
                         }

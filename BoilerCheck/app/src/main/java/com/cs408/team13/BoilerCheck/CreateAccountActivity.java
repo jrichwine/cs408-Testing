@@ -340,14 +340,14 @@ public class CreateAccountActivity extends AppCompatActivity implements LoaderCa
                         // called when response HTTP status is "200 OK"
 
                         Log.d("onSuccess", "StatusCode:" + statusCode);
-                        for (Header head : headers) {
+                        /*for (Header head : headers) {
                             Log.d("Headers", head.getName() + ":" + head.getValue());
                         }
 
                         for(Cookie c : BoilerCheck.myCookieStore.getCookies())
                         {
                             Log.d("Cookies", c.getName() + c.getValue());
-                        }
+                        }*/
 
                         onPostExecute(true);
                     }
@@ -357,16 +357,16 @@ public class CreateAccountActivity extends AppCompatActivity implements LoaderCa
                         // called when response HTTP status is "4XX" (eg. 401, 403, 404)
                         Log.d("onFailure", "StatusCode:" + statusCode);
 
-                        if(headers != null)
+                        /*if(headers != null)
                         {
                             for (Header head : headers) {
                                 Log.d("Headers", head.getName() + ":" + head.getValue());
                             }
 
-                           // for (Cookie c : myCookieStore.getCookies()) {
-                            //    Log.d("Cookies", c.getName() + c.getValue());
-                           // }
-                        }
+                            for (Cookie c : myCookieStore.getCookies()) {
+                                Log.d("Cookies", c.getName() + c.getValue());
+                            }
+                        }*/
 
                         onPostExecute(false);
 
@@ -377,7 +377,7 @@ public class CreateAccountActivity extends AppCompatActivity implements LoaderCa
                         // called when request is retried
                     }
                 });
-                Thread.sleep(2000);
+                Thread.sleep(200);
             } catch (InterruptedException e) {
                 return false;
             }
