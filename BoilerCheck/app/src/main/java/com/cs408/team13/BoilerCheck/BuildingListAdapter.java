@@ -97,6 +97,7 @@ public class BuildingListAdapter extends BaseAdapter {
                     mCheckInTask = new CheckInTask(currentBuilding, view.getContext());
                     mCheckInTask.execute((Void) null);
 
+                    /*
                     try{
                         Thread.sleep(500);
                     } catch (Exception e)
@@ -104,8 +105,8 @@ public class BuildingListAdapter extends BaseAdapter {
 
                     }
                     //Test Checkout
-                    //mCheckOutTask = new CheckOutTask(view.getContext());
-                    //mCheckOutTask.execute((Void) null);
+                    mCheckOutTask = new CheckOutTask(view.getContext());
+                    mCheckOutTask.execute((Void) null);
 
                     try{
                         Thread.sleep(500);
@@ -117,7 +118,7 @@ public class BuildingListAdapter extends BaseAdapter {
                     //Test Refresh
                     mRefreshCapacityTask = new RefreshCapacityTask(view.getContext());
                     mRefreshCapacityTask.execute((Void) null);
-
+                    */
                 }
             });
         } else {

@@ -4,18 +4,19 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Looper;
 import android.util.Log;
-import android.view.accessibility.CaptioningManager;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.loopj.android.http.AsyncHttpResponseHandler;
+
+import java.util.List;
 
 import cz.msebera.android.httpclient.Header;
 
 /**
  * Created by Jacob on 3/3/2016.
  */
-public class RefreshCapacityTask extends AsyncTask<Void, Void, Boolean>
+public class RefreshCapacityTask extends AsyncTask<Void, Void, String>
 {
     private final Context viewContext;
     private boolean result = false;
@@ -24,7 +25,7 @@ public class RefreshCapacityTask extends AsyncTask<Void, Void, Boolean>
     }
 
     @Override
-    protected Boolean doInBackground(Void... params) {
+    protected String doInBackground(Void... params) {
 
         try {
             BackEndRestClient.get("users/refreshCapacity", null, new AsyncHttpResponseHandler(Looper.getMainLooper()) {
@@ -34,7 +35,6 @@ public class RefreshCapacityTask extends AsyncTask<Void, Void, Boolean>
                     // called when response HTTP status is "200 OK"
                     Log.d("onSuccess", "StatusCode:" + statusCode);
 
-
                     try {
                         Gson gson = new Gson();
                         String dataResponse = "";
@@ -42,58 +42,47 @@ public class RefreshCapacityTask extends AsyncTask<Void, Void, Boolean>
 
                         dataResponse = new String(response, "UTF-8");
                         formattedResponse = "{ Caps:" + dataResponse + "}";
-                        Log.d("Data returned", formattedResponse);
 
-                        class Cap
+                        Caps c = gson.fromJson(formattedResponse, Caps.class);
+
+                        for(int i = 0; i < c.Caps.size(); i++)
                         {
-                            public String _id;
-                            public int CurrentCapacity;
+                            BoilerCheck.loadedBuildings.Buildings[i].CurrentCapacity = c.Caps.get(i).CurrentCapacity;
                         }
 
-                        class Caps
-                        {
-                            Cap[] Caps;
-                        }
-
-                        Caps c = new Caps();
-                        c = gson.fromJson(formattedResponse, Caps.class);
-
-                        //Log.d("Data returned", c);
-
-                        onPostExecute(true);
+                        onPostExecute("0");
                     } catch (Exception e) {
                         Log.d("ERROR", "Error parsing returned data");
-                        onPostExecute(false);
+                        onPostExecute("1");
                     }
-
-                    onPostExecute(true);
                 }
 
                 @Override
                 public void onFailure(int statusCode, Header[] headers, byte[] errorResponse, Throwable e) {
                     // called when response HTTP status is "4XX" (eg. 401, 403, 404)
                     Log.d("onError", "StatusCode:" + statusCode);
-                    onPostExecute(false);
+                    onPostExecute("1");
                 }
             });
             Thread.sleep(200);
         } catch (InterruptedException e) {
-            return false;
+            return "1";
         }
-
-        return true;
+        return "2";
     }
 
     @Override
-    protected void onPostExecute(final Boolean success) {
+    protected void onPostExecute(final String result) {
 
-        if (success) {
-            Toast.makeText(viewContext, "Updated Capacities", Toast.LENGTH_SHORT).show();
-            //result = true;
-        } else {
-            Toast.makeText(viewContext, "Failed Updated Capacities", Toast.LENGTH_SHORT).show();
-            //result = false;
+        switch(result)
+        {
+            case "0": Toast.makeText(viewContext, "Updated Capacities", Toast.LENGTH_SHORT).show();
+                    break;
+            case "1": Toast.makeText(viewContext, "Failed Updated Capacities", Toast.LENGTH_SHORT).show();
+                    break;
+            case "2":
+                    //async task is complete, do something else, like refresh listview
+                    break;
         }
     }
-
 }

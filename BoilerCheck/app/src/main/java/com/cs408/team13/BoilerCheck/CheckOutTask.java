@@ -13,7 +13,7 @@ import cz.msebera.android.httpclient.Header;
 /**
  * Created by Jacob on 3/3/2016.
  */
-public class CheckOutTask extends AsyncTask<Void, Void, Boolean>
+public class CheckOutTask extends AsyncTask<Void, Void, String>
 {
     private final Context viewContext;
     private boolean result = false;
@@ -23,7 +23,7 @@ public class CheckOutTask extends AsyncTask<Void, Void, Boolean>
     }
 
     @Override
-    protected Boolean doInBackground(Void... params) {
+    protected String doInBackground(Void... params) {
         try {
             BackEndRestClient.get("users/checkOut", null, new AsyncHttpResponseHandler(Looper.getMainLooper()) {
 
@@ -31,34 +31,37 @@ public class CheckOutTask extends AsyncTask<Void, Void, Boolean>
                 public void onSuccess(int statusCode, Header[] headers, byte[] response) {
                     // called when response HTTP status is "200 OK"
                     Log.d("onSuccess", "StatusCode:" + statusCode);
-                    onPostExecute(true);
+                    onPostExecute("0");
                 }
 
                 @Override
                 public void onFailure(int statusCode, Header[] headers, byte[] errorResponse, Throwable e) {
                     // called when response HTTP status is "4XX" (eg. 401, 403, 404)
                     Log.d("onError", "StatusCode:" + statusCode);
-                    onPostExecute(false);
+                    onPostExecute("1");
                 }
             });
             Thread.sleep(200);
         } catch (InterruptedException e) {
-            return false;
+            return "1";
         }
 
-        return result;
+        return "2";
     }
 
     @Override
-    protected void onPostExecute(final Boolean success) {
+    protected void onPostExecute(final String result) {
 
-        if (success) {
-            Toast.makeText(viewContext, "CheckOut Success:" + BoilerCheck.CurrentBuilding, Toast.LENGTH_SHORT).show();
-            BoilerCheck.CurrentBuilding = null;
-            result = true;
-        } else {
-            Toast.makeText(viewContext, "CheckOut Failure:" + BoilerCheck.CurrentBuilding, Toast.LENGTH_SHORT).show();
-            result = false;
+        switch(result)
+        {
+            case "0": Toast.makeText(viewContext, "CheckOut Success:" + BoilerCheck.CurrentBuilding, Toast.LENGTH_SHORT).show();
+                BoilerCheck.CurrentBuilding = null;
+                break;
+            case "1":   Toast.makeText(viewContext, "CheckOut Failure:" + BoilerCheck.CurrentBuilding, Toast.LENGTH_SHORT).show();
+                break;
+            case "2":
+                //async task is complete, do something else
+                break;
         }
     }
 
