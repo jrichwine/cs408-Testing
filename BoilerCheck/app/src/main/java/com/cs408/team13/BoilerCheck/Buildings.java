@@ -11,7 +11,7 @@ import java.util.Comparator;
  */
 public class Buildings {
     public Building[] Buildings;
-    private double shortestDistance = Integer.MAX_VALUE;
+    private double shortestDistance = 30;
     public static Comparator<Building> NAME_ORDER =
             new Comparator<Building>() {
                 //@Override
