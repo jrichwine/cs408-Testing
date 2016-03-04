@@ -151,6 +151,7 @@ public class BuildingListAdapter extends BaseAdapter {
                         Toast.makeText(view.getContext(), "Not close enough to: " + currentBuilding + " to checkin.", Toast.LENGTH_LONG).show();
                     }
 
+
                     try{
                         Thread.sleep(500);
                     } catch (Exception e)
@@ -167,8 +168,9 @@ public class BuildingListAdapter extends BaseAdapter {
                     {
 
                     }
-
-
+                    //Test Refresh
+                    mRefreshCapacityTask = new RefreshCapacityTask(view.getContext());
+                    mRefreshCapacityTask.execute((Void) null);
 
                 }
             });*/

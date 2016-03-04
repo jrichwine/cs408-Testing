@@ -32,8 +32,16 @@ userRoutes.get('/checkOut', function (request, response) {
     User.findOne({ 'local.email': request.user.local.email }, function (err, user) {
 
         var building = user.local.building;
+        
+        //Can't checkout cause user isnt checkedin
+        if(building == "none"){
+             response.sendStatus(400);
+             return;
+        }
+      
+        
         user.local.checkTime = null;
-        user.local.building = null;
+        user.local.building = "none";
 
         user.save(function (err) {
             if (err)
