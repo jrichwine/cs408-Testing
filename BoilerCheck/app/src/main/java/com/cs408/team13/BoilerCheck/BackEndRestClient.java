@@ -1,4 +1,5 @@
 package com.cs408.team13.BoilerCheck;
+
 import com.loopj.android.http.*;
 /**
  * Created by Jacob on 2/6/2016.
@@ -6,12 +7,11 @@ import com.loopj.android.http.*;
 public class BackEndRestClient {
 
         //Address of local dev machine
-        private static final String BASE_URL = "http://10.0.2.2:3000/";
+        private static final String BASE_URL = "http://10.184.166.243:3000/";
 
         private static AsyncHttpClient client = new AsyncHttpClient();
 
         private static PersistentCookieStore myCookieStore;
-
 
         public static void get(String url, RequestParams params, AsyncHttpResponseHandler responseHandler) {
             client.get(getAbsoluteUrl(url), params, responseHandler);

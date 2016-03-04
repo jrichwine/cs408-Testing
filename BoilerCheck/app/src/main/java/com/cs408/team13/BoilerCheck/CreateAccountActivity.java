@@ -318,14 +318,12 @@ public class CreateAccountActivity extends AppCompatActivity implements LoaderCa
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
 
             try {
 
                 RequestParams rparams = new RequestParams();
                 rparams.put("email", mEmail);
                 rparams.put("password", mPassword);
-
 
                 BoilerCheck.RestClient.post("signup", rparams, new AsyncHttpResponseHandler(Looper.getMainLooper()) {
 
@@ -338,16 +336,7 @@ public class CreateAccountActivity extends AppCompatActivity implements LoaderCa
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, byte[] response) {
                         // called when response HTTP status is "200 OK"
-
                         Log.d("onSuccess", "StatusCode:" + statusCode);
-                        for (Header head : headers) {
-                            Log.d("Headers", head.getName() + ":" + head.getValue());
-                        }
-
-                        for(Cookie c : BoilerCheck.myCookieStore.getCookies())
-                        {
-                            Log.d("Cookies", c.getName() + c.getValue());
-                        }
 
                         onPostExecute(true);
                     }
@@ -357,27 +346,12 @@ public class CreateAccountActivity extends AppCompatActivity implements LoaderCa
                         // called when response HTTP status is "4XX" (eg. 401, 403, 404)
                         Log.d("onFailure", "StatusCode:" + statusCode);
 
-                        if(headers != null)
-                        {
-                            for (Header head : headers) {
-                                Log.d("Headers", head.getName() + ":" + head.getValue());
-                            }
-
-                           // for (Cookie c : myCookieStore.getCookies()) {
-                            //    Log.d("Cookies", c.getName() + c.getValue());
-                           // }
-                        }
-
                         onPostExecute(false);
 
                     }
 
-                    @Override
-                    public void onRetry(int retryNo) {
-                        // called when request is retried
-                    }
                 });
-                Thread.sleep(2000);
+                Thread.sleep(200);
             } catch (InterruptedException e) {
                 return false;
             }

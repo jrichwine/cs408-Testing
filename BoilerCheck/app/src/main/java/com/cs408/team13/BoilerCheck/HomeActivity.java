@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.view.View;
 import android.content.Intent;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -23,72 +24,51 @@ import cz.msebera.android.httpclient.cookie.Cookie;
 public class HomeActivity extends AppCompatActivity  {
 
     private TextView mTextView;
-    private Button mEATBUTTON;
-    private Button mWORKBUTTON;
-    private GetTestData mAuthTask = null;
+    private Button mEatButton;
+    private Button mStudyButton;
+    private Button mPlayButton;
+    private GetBuildingData mAuthTask = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
         mTextView = (TextView) findViewById(R.id.textView_home);
-        mTextView.setText("hello");
-
-        mEATBUTTON = (Button) findViewById(R.id.button_eat);
-        mWORKBUTTON = (Button) findViewById(R.id.button_work);
+        mEatButton = (Button) findViewById(R.id.button_eat);
+        mStudyButton = (Button) findViewById(R.id.button_work);
+        mPlayButton = (Button) findViewById(R.id.button_play);
+        mEatButton.setTag(R.string.eat_filter);
+        mStudyButton.setTag(R.string.work_filter);
+        mPlayButton.setTag(R.string.play_filter);
 
         getData();
     }
 
     public void viewList(View v) {
-        Intent i = new Intent(this, ListActivity.class);
+        Intent i = new Intent(this, ListActivity.class).putExtra("filter", (int)v.getTag());
         startActivity(i);
     }
+
     public void getData() {
 
-            mAuthTask = new GetTestData();
+            mAuthTask = new GetBuildingData();
             mAuthTask.execute((Void) null);
-        }
+    }
 
-
-
-    public class GetTestData extends AsyncTask<Void, Void, Boolean>
+    public class GetBuildingData extends AsyncTask<Void, Void, Boolean>
     {
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
             try {
 
-                RequestParams rparams = new RequestParams();
-
-                BoilerCheck.RestClient.get("users/getBuildings", rparams, new AsyncHttpResponseHandler(Looper.getMainLooper()) {
-
-                    @Override
-                    public void onStart() {
-                        // called before request is started
-                        List<Cookie> cookies = BoilerCheck.myCookieStore.getCookies();
-                        for (int i = 0; i < cookies.size(); i++) {
-                            Log.d("Saved Cookies: ", ":" + cookies.get(i));
-                        }
-                    }
+                BoilerCheck.RestClient.get("users/getBuildings", null, new AsyncHttpResponseHandler(Looper.getMainLooper()) {
 
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, byte[] response) {
                         // called when response HTTP status is "200 OK"
 
                         Log.d("onSuccess", "StatusCode:" + statusCode);
-                        if (headers != null) {
-                            for (Header head : headers) {
-                                Log.d("Headers", head.getName() + ":" + head.getValue());
-                            }
-
-                            for (Cookie c : BoilerCheck.myCookieStore.getCookies()) {
-                                Log.d("Cookies", c.getName() + c.getValue());
-                            }
-                        }
-
-
 
                         try {
                             Gson gson = new Gson();
@@ -100,14 +80,10 @@ public class HomeActivity extends AppCompatActivity  {
                             Log.d("Data returned", formattedResponse);
 
                             BoilerCheck.loadedBuildings = gson.fromJson(formattedResponse, Buildings.class);
-
-                            mEATBUTTON.setText(BoilerCheck.loadedBuildings.Buildings[0].BuildingName);
-                            mWORKBUTTON.setText(BoilerCheck.loadedBuildings.Buildings[1].BuildingName);
+                            BoilerCheck.loadedBuildings.distanceSort();
 
                             onPostExecute(true);
-                        }
-                        catch (Exception e)
-                        {
+                        } catch (Exception e) {
                             Log.d("ERROR", "Error parsing returned data");
                             onPostExecute(false);
                         }
@@ -118,26 +94,10 @@ public class HomeActivity extends AppCompatActivity  {
                         // called when response HTTP status is "4XX" (eg. 401, 403, 404)
                         Log.d("onFailure", "StatusCode:" + statusCode);
 
-                        if (headers != null) {
-
-                            for (Header head : headers) {
-                                Log.d("Headers", head.getName() + ":" + head.getValue());
-                            }
-
-                            for (Cookie c : BoilerCheck.myCookieStore.getCookies()) {
-                                Log.d("Cookies", c.getName() + c.getValue());
-                            }
-                        }
                         onPostExecute(false);
-
-                    }
-
-                    @Override
-                    public void onRetry(int retryNo) {
-                        // called when request is retried
                     }
                 });
-                Thread.sleep(2000);
+                Thread.sleep(200);
             } catch (InterruptedException e) {
                 return false;
             }
@@ -150,10 +110,10 @@ public class HomeActivity extends AppCompatActivity  {
             mAuthTask = null;
 
             if (success) {
-                mTextView.setText("AUTHED");
+                Toast.makeText(mTextView.getContext(), "Data Retrieved", Toast.LENGTH_SHORT).show();
                 //finish();
             } else {
-                mTextView.setText("DONE");
+                Toast.makeText(mTextView.getContext(), "Done", Toast.LENGTH_SHORT).show();
             }
         }
 

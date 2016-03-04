@@ -71,7 +71,7 @@ var checkAuth = function(req, res, next) {
     }
     else 
     {
-        console.log('Authenticated');
+        //console.log('Authenticated');
         next(); 
     }
 };

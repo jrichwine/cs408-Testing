@@ -1,12 +1,22 @@
 { "GPSData": [
-    {"BuildingName": "COREC",  "Category": "recreation", "Coordinates": [-44.446, 88.6777], "TotalCapacity": 10, "CurrentCapacity": 0},
-    {"BuildingName": "Lawson",  "Category": "study", "Coordinates": [-73.9691347, 40.6389857], "TotalCapacity": 10, "CurrentCapacity": 0},
-    {"BuildingName": "Math",    "Category": "study", "Coordinates": [-74.66666, 30.454555], "TotalCapacity": 20, "CurrentCapacity": 0},
-    {"BuildingName": "WileyCourt", "Category": "eating", "Coordinates": [45.666, 67.777777], "TotalCapacity": 200, "CurrentCapacity": 0} 
-    
+	{"BuildingName": "Aviation Technology Library",  "Category": "study", "Coordinates": [40.416232, -86.930948], "TotalCapacity": 10, "CurrentCapacity": 0},
+	{"BuildingName": "HSSE library",  "Category": "study", "Coordinates": [40.425142, -86.913138], "TotalCapacity": 40, "CurrentCapacity": 0},
+	{"BuildingName": "Black Cultural Center",  "Category": "study", "Coordinates": [40.427491, -86.919466], "TotalCapacity": 15, "CurrentCapacity": 0},
+	{"BuildingName": "Siegesmund Engineering Library",  "Category": "study", "Coordinates": [40.427447, -86.912173], "TotalCapacity": 20, "CurrentCapacity": 0},
+	{"BuildingName": "M.G.Mellon Library of Chemistry",  "Category": "study", "Coordinates": [40.426480, -86.913068], "TotalCapacity": 17, "CurrentCapacity": 0},
+	{"BuildingName": "Earth, Atmospheric & Planetary Sciences",  "Category": "study", "Coordinates": [40.430448, -86.915114], "TotalCapacity": 14, "CurrentCapacity": 0},
+	{"BuildingName": "Hicks Undergraduate Library",  "Category": "study", "Coordinates": [40.424520, -86.912549], "TotalCapacity": 200, "CurrentCapacity": 0},
+	{"BuildingName": "Life Sciences Library",  "Category": "study", "Coordinates": [40.423544, -86.917996], "TotalCapacity": 35, "CurrentCapacity": 0},
+	{"BuildingName": "Mathematical Sciences Library",  "Category": "study", "Coordinates": [40.426153, -86.915737], "TotalCapacity": 40, "CurrentCapacity": 0},
+	{"BuildingName": "Parrish Library of Management & Economics",  "Category": "study", "Coordinates": [40.423693, -86.911069], "TotalCapacity": 60, "CurrentCapacity": 0},
+	{"BuildingName": "Pharmacy, Nursing and Health Sciences Library",  "Category": "study", "Coordinates": [40.429712, -86.915863], "TotalCapacity": 25, "CurrentCapacity": 0},    
+	{"BuildingName": "Physics Library",  "Category": "study", "Coordinates": [40.430126, -86.913312], "TotalCapacity": 20, "CurrentCapacity": 0},  
+	{"BuildingName": "Veterinary Medical Library",  "Category": "study", "Coordinates": [40.419504, -86.914832], "TotalCapacity": 25, "CurrentCapacity": 0},  
+	{"BuildingName": "Hillenbrand Dining Court",  "Category": "eating", "Coordinates": [40.426591, -86.926779], "TotalCapacity": 50, "CurrentCapacity": 0}, 
+	{"BuildingName": "Earhart Dining Court",  "Category": "eating", "Coordinates": [40.425617, -86.925143], "TotalCapacity": 50, "CurrentCapacity": 0}, 
+	{"BuildingName": "Wiley Dining Court",  "Category": "eating", "Coordinates": [40.428648, -86.920887], "TotalCapacity": 70, "CurrentCapacity": 0}, 
+	{"BuildingName": "Ford Dining Court",  "Category": "eating", "Coordinates": [40.428648, -86.920887], "TotalCapacity": 70, "CurrentCapacity": 0}, 
+	{"BuildingName": "Windsor Dining Court",  "Category": "eating", "Coordinates": [40.426879, -86.921059], "TotalCapacity": 50, "CurrentCapacity": 0},
+	{"BuildingName": "France A. Córdova Recreational Sports Center", "Category": "recreation", "Coordinates": [40.428380, -86.922383], "TotalCapacity": 400, "CurrentCapacity": 0},
+ 	{"BuildingName": "Lawson",  "Category": "study", "Coordinates": [40.427713, -86.916974], "TotalCapacity": 10, "CurrentCapacity": 0}
 ]}
-    
-
-
-
-
