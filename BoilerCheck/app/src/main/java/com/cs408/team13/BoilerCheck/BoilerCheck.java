@@ -24,5 +24,6 @@ public class BoilerCheck extends Application {
         myCookieStore = new PersistentCookieStore(this);
         RestClient.setCookieStore(myCookieStore);
         locationService = new LocationService(this);
+        locationService.connect();
     }
 }
