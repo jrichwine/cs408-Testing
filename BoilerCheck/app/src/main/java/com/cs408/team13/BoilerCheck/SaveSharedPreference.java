@@ -20,8 +20,24 @@ public class SaveSharedPreference {
         editor.commit();
     }
 
+    public static void setPassword(Context ctx, String password) {
+        SharedPreferences.Editor editor = getSharedPreferences(ctx).edit();
+        editor.putString("password", password);
+        editor.commit();
+    }
+
+    public static String getPassword(Context ctx) {
+        return getSharedPreferences(ctx).getString("password","");
+    }
+
     public static String getUserName(Context ctx) {
         return getSharedPreferences(ctx).getString(PREF_USER_NAME, "");
+    }
+
+    public static void clear(Context ctx) {
+        SharedPreferences.Editor editor = getSharedPreferences(ctx).edit();
+        editor.clear();
+        editor.commit();
     }
 
 }

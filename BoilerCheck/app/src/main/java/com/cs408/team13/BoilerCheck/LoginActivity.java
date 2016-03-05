@@ -400,6 +400,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
             if (success) {
                 SaveSharedPreference.setUserName(LoginActivity.this, mEmail);
+                SaveSharedPreference.setPassword(LoginActivity.this, mPassword);
                 finish();
                 //Load next page
                 Intent intent_name = new Intent();
