@@ -15,6 +15,6 @@ public class ListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
         list = (ListView) findViewById(R.id.building_list);
-        list.setAdapter(new BuildingListAdapter(this));
+        list.setAdapter(new BuildingListAdapter(this,getIntent().getIntExtra("filter",-1)));
     }
 }

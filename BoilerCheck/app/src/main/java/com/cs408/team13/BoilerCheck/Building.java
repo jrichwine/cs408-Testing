@@ -10,4 +10,6 @@ public class Building {
     public double[] Coordinates;
     public int TotalCapacity;
     public int CurrentCapacity;
+
+    public double DistanceTo;
 }

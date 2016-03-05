@@ -1,4 +1,5 @@
 package com.cs408.team13.BoilerCheck;
+
 import com.loopj.android.http.*;
 /**
  * Created by Jacob on 2/6/2016.
@@ -11,7 +12,6 @@ public class BackEndRestClient {
         private static AsyncHttpClient client = new AsyncHttpClient();
 
         private static PersistentCookieStore myCookieStore;
-
 
         public static void get(String url, RequestParams params, AsyncHttpResponseHandler responseHandler) {
             client.get(getAbsoluteUrl(url), params, responseHandler);
