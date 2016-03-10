@@ -98,7 +98,8 @@ public class BuildingListAdapter extends BaseAdapter {
                     //Send building to see if it is close enough to user to be checked in
                     //If not close enough, return message saying so and keep trying until can check in?
                     Building closestBuilding = BoilerCheck.loadedBuildings.nearestBuilding();
-                    if(closestBuilding != null && currentBuilding.equals(closestBuilding.BuildingName)) {
+                    if(BoilerCheck.CurrentBuilding == null && closestBuilding != null && currentBuilding.equals(closestBuilding.BuildingName)) {
+                        BoilerCheck.CurrentBuilding = currentBuilding;
                         //If close enough, send building to checkin Route
                         mCheckInTask = new CheckInTask(currentBuilding, view.getContext());
                         mCheckInTask.execute((Void) null);
@@ -139,7 +140,7 @@ public class BuildingListAdapter extends BaseAdapter {
                     //Send building to see if it is close enough to user to be checked in
                     //If not close enough, return message saying so and keep trying until can check in?
                     Building closestBuilding = BoilerCheck.loadedBuildings.nearestBuilding();
-                    if(closestBuilding != null && currentBuilding.equals(closestBuilding.BuildingName)) {
+                    if(BoilerCheck.CurrentBuilding.equals(currentBuilding)) {
                         //If close enough, send building to checkin Route
                         mCheckInTask = new CheckInTask(currentBuilding, view.getContext());
                         mCheckInTask.execute((Void) null);
