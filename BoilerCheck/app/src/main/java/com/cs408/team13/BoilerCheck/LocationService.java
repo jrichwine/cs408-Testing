@@ -36,6 +36,8 @@ public class LocationService implements GoogleApiClient.ConnectionCallbacks, Goo
     private double longitude;
     private LocationRequest locationRequest;
     private Context context;
+    private CheckOutTask mCheckOutTask = null;
+    private RefreshCapacityTask mRefreshCapacityTask = null;
     static final int REQUEST_CODE_RECOVER_PLAY_SERVICES = 1001;
 
 
@@ -143,7 +145,6 @@ public class LocationService implements GoogleApiClient.ConnectionCallbacks, Goo
             if (lastLocation != null) {
                 latitude = lastLocation.getLatitude();
                 longitude = lastLocation.getLongitude();
-
             }
             Log.i("OnConnected", "Location services is connected" + " " + latitude + " " + longitude);
 
@@ -170,7 +171,20 @@ public class LocationService implements GoogleApiClient.ConnectionCallbacks, Goo
         lastLocation = location;
         latitude = location.getLatitude();
         longitude = location.getLongitude();
-        //Toast.makeText(MainActivity.this, "Location has changed", Toast.LENGTH_LONG);
+        Toast.makeText(context, "Location has changed", Toast.LENGTH_LONG);
+        Building closestBuilding = BoilerCheck.loadedBuildings.nearestBuilding();
+        if(closestBuilding == null || !(closestBuilding.BuildingName.equals(BoilerCheck.CurrentBuilding))) {
+            Toast.makeText(context, "Not at checked-in building. Trying to Checkout of Building.",Toast.LENGTH_SHORT).show();
+            mCheckOutTask = new CheckOutTask(context);
+            mCheckOutTask.execute((Void) null);
+
+            Toast.makeText(context, "Not at checked-in building. Successfully checked out of: " + BoilerCheck.CurrentBuilding, Toast.LENGTH_SHORT).show();
+            BoilerCheck.CurrentBuilding = null;
+
+            //Test Refresh
+            mRefreshCapacityTask = new RefreshCapacityTask(context);
+            mRefreshCapacityTask.execute((Void) null);
+        }
     }
 
     private boolean checkGooglePlayServices() {

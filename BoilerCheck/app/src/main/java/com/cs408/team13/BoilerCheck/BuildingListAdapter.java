@@ -67,6 +67,7 @@ public class BuildingListAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         final View view;
         ViewHolder holder;
+        ViewHolder holder1;
         if (convertView == null) {
             view = ((LayoutInflater)ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.building_list_item, parent, false);
             holder = new ViewHolder();
@@ -76,6 +77,8 @@ public class BuildingListAdapter extends BaseAdapter {
             holder.totCap = (TextView) view.findViewById(R.id.tot_cap);
             //holder.distance = (TextView) view.findViewById(R.id.tot_dist);
             holder.checkIn = (Button) view.findViewById(R.id.check_in);
+            holder.checkOut = (Button) view.findViewById(R.id.check_out);
+            view.setTag(holder);
             final ViewHolder final_holder = holder;
             final int final_position = position;
             view.setOnClickListener(new View.OnClickListener() {
@@ -98,17 +101,42 @@ public class BuildingListAdapter extends BaseAdapter {
                     //Send building to see if it is close enough to user to be checked in
                     //If not close enough, return message saying so and keep trying until can check in?
                     Building closestBuilding = BoilerCheck.loadedBuildings.nearestBuilding();
-                    if(BoilerCheck.CurrentBuilding == null && closestBuilding != null && currentBuilding.equals(closestBuilding.BuildingName)) {
-                        BoilerCheck.CurrentBuilding = currentBuilding;
-                        //If close enough, send building to checkin Route
-                        mCheckInTask = new CheckInTask(currentBuilding, view.getContext());
-                        mCheckInTask.execute((Void) null);
+                    if(closestBuilding != null && currentBuilding.equals(closestBuilding.BuildingName)) {
+                        //If close enough, send building to check-in Route
+                        if(BoilerCheck.CurrentBuilding == null) {
+                            BoilerCheck.CurrentBuilding = currentBuilding;
+                            mCheckInTask = new CheckInTask(currentBuilding, view.getContext());
+                            mCheckInTask.execute((Void) null);
+                            //Test Refresh
+                            mRefreshCapacityTask = new RefreshCapacityTask(view.getContext());
+                            mRefreshCapacityTask.execute((Void) null);
+                            Toast.makeText(view.getContext(), "Successfully checked-in to:" + currentBuilding, Toast.LENGTH_SHORT).show();
+                        }
+                        else if(BoilerCheck.CurrentBuilding.equals(currentBuilding)) {
+                            Toast.makeText(view.getContext(), "Already checked-in to:" + currentBuilding, Toast.LENGTH_SHORT).show();
+                        }
+                        else {
+                            mCheckOutTask = new CheckOutTask(view.getContext());
+                            mCheckOutTask.execute((Void) null);
 
-                        //Test Refresh
-                        mRefreshCapacityTask = new RefreshCapacityTask(view.getContext());
-                        mRefreshCapacityTask.execute((Void) null);
-                    } else {
-                        Toast.makeText(view.getContext(), "Not close enough to: " + currentBuilding + " to checkin.", Toast.LENGTH_LONG).show();
+                            Toast.makeText(view.getContext(), "Successfully checked out of: " + BoilerCheck.CurrentBuilding, Toast.LENGTH_SHORT).show();
+                            BoilerCheck.CurrentBuilding = currentBuilding;
+
+                            mCheckInTask = new CheckInTask(currentBuilding, view.getContext());
+                            mCheckInTask.execute((Void) null);
+                            //Test Refresh
+                            mRefreshCapacityTask = new RefreshCapacityTask(view.getContext());
+                            mRefreshCapacityTask.execute((Void) null);
+                            Toast.makeText(view.getContext(), "Successfully checked-in to:" + currentBuilding, Toast.LENGTH_SHORT).show();
+
+                        }
+
+                }
+                    else if(BoilerCheck.CurrentBuilding != null) {
+                        Toast.makeText(view.getContext(), "Already Checked Into: " + currentBuilding + ". Please Checkout First.", Toast.LENGTH_LONG).show();
+                    }
+                    else {
+                        Toast.makeText(view.getContext(), "Not Close Enough To: " + currentBuilding + " To Check-in.", Toast.LENGTH_LONG).show();
                     }
 
                     try{
@@ -117,64 +145,37 @@ public class BuildingListAdapter extends BaseAdapter {
                     {
 
                     }
-
-                    try{
-                        Thread.sleep(500);
-                    } catch (Exception e)
-                    {
-
-                    }
-
-
-
                 }
             });
 
-            /*holder.checkOut.setOnClickListener(new View.OnClickListener() {
+            holder.checkOut.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    Toast.makeText(view.getContext(), "Trying to Checkout of Building.",Toast.LENGTH_SHORT).show();
 
-                    String currentBuilding = build.get(final_position).BuildingName;
-                    Toast.makeText(view.getContext(), "Trying to CheckOut to:" + currentBuilding, Toast.LENGTH_SHORT).show();
-
-                    //Send building to see if it is close enough to user to be checked in
-                    //If not close enough, return message saying so and keep trying until can check in?
-                    Building closestBuilding = BoilerCheck.loadedBuildings.nearestBuilding();
-                    if(BoilerCheck.CurrentBuilding.equals(currentBuilding)) {
-                        //If close enough, send building to checkin Route
-                        mCheckInTask = new CheckInTask(currentBuilding, view.getContext());
-                        mCheckInTask.execute((Void) null);
-
+                    // check if user is checked-in, checkout if they are, otherwise return error
+                    if(BoilerCheck.CurrentBuilding != null) {
+                        mCheckOutTask = new CheckOutTask(view.getContext());
+                        mCheckOutTask.execute((Void) null);
                         //Test Refresh
                         mRefreshCapacityTask = new RefreshCapacityTask(view.getContext());
                         mRefreshCapacityTask.execute((Void) null);
+
+                        Toast.makeText(view.getContext(), "Successfully checked out of: " + BoilerCheck.CurrentBuilding, Toast.LENGTH_SHORT).show();
+                        BoilerCheck.CurrentBuilding = null;
+
                     } else {
-                        Toast.makeText(view.getContext(), "Not close enough to: " + currentBuilding + " to checkin.", Toast.LENGTH_LONG).show();
+                        Toast.makeText(view.getContext(), "Not Checked Into Any Building. Please Check-in First.", Toast.LENGTH_LONG).show();
                     }
-
-
                     try{
                         Thread.sleep(500);
                     } catch (Exception e)
                     {
 
                     }
-                    //Test Checkout
-                    mCheckOutTask = new CheckOutTask(view.getContext());
-                    mCheckOutTask.execute((Void) null);
-
-                    try{
-                        Thread.sleep(500);
-                    } catch (Exception e)
-                    {
-
-                    }
-                    //Test Refresh
-                    mRefreshCapacityTask = new RefreshCapacityTask(view.getContext());
-                    mRefreshCapacityTask.execute((Void) null);
 
                 }
-            });*/
+            });
         } else {
             view = convertView;
             holder = (ViewHolder)view.getTag();

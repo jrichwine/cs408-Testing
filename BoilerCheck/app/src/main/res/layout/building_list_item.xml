@@ -57,11 +57,6 @@
                     android:text="Total Capacity"
                     android:id="@+id/tot_cap" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Distance"
-                android:id="@+id/tot_dist" />
         </LinearLayout>
 
         </LinearLayout>
@@ -71,6 +66,12 @@
             android:layout_height="wrap_content"
             android:text="Check In"
             android:id="@+id/check_in" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Check Out"
+            android:id="@+id/check_out" />
     </LinearLayout>
 
 </LinearLayout>
