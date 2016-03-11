@@ -75,7 +75,7 @@ public class BuildingListAdapter extends BaseAdapter {
             holder.expanded = (LinearLayout) view.findViewById(R.id.stuff);
             holder.currCap = (TextView) view.findViewById(R.id.curr_cap);
             holder.totCap = (TextView) view.findViewById(R.id.tot_cap);
-            //holder.distance = (TextView) view.findViewById(R.id.tot_dist);
+            holder.distance = (TextView) view.findViewById(R.id.tot_dis);
             holder.checkIn = (Button) view.findViewById(R.id.check_in);
             holder.checkOut = (Button) view.findViewById(R.id.check_out);
             view.setTag(holder);
@@ -96,7 +96,7 @@ public class BuildingListAdapter extends BaseAdapter {
                 public void onClick(View v) {
 
                     String currentBuilding = build.get(final_position).BuildingName;
-                    Toast.makeText(view.getContext(), "Trying to CheckIn to:" + currentBuilding, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(view.getContext(), "Trying to Check-in to:" + currentBuilding, Toast.LENGTH_SHORT).show();
 
                     //Send building to see if it is close enough to user to be checked in
                     //If not close enough, return message saying so and keep trying until can check in?
@@ -110,7 +110,6 @@ public class BuildingListAdapter extends BaseAdapter {
                             //Test Refresh
                             mRefreshCapacityTask = new RefreshCapacityTask(view.getContext());
                             mRefreshCapacityTask.execute((Void) null);
-                            Toast.makeText(view.getContext(), "Successfully checked-in to:" + currentBuilding, Toast.LENGTH_SHORT).show();
                         }
                         else if(BoilerCheck.CurrentBuilding.equals(currentBuilding)) {
                             Toast.makeText(view.getContext(), "Already checked-in to:" + currentBuilding, Toast.LENGTH_SHORT).show();
@@ -119,7 +118,6 @@ public class BuildingListAdapter extends BaseAdapter {
                             mCheckOutTask = new CheckOutTask(view.getContext());
                             mCheckOutTask.execute((Void) null);
 
-                            Toast.makeText(view.getContext(), "Successfully checked out of: " + BoilerCheck.CurrentBuilding, Toast.LENGTH_SHORT).show();
                             BoilerCheck.CurrentBuilding = currentBuilding;
 
                             mCheckInTask = new CheckInTask(currentBuilding, view.getContext());
@@ -127,7 +125,6 @@ public class BuildingListAdapter extends BaseAdapter {
                             //Test Refresh
                             mRefreshCapacityTask = new RefreshCapacityTask(view.getContext());
                             mRefreshCapacityTask.execute((Void) null);
-                            Toast.makeText(view.getContext(), "Successfully checked-in to:" + currentBuilding, Toast.LENGTH_SHORT).show();
 
                         }
 
@@ -180,9 +177,11 @@ public class BuildingListAdapter extends BaseAdapter {
             view = convertView;
             holder = (ViewHolder)view.getTag();
         }
+
         holder.name.setText(build.get(position).BuildingName);
         holder.currCap.setText(Integer.toString(build.get(position).CurrentCapacity));
         holder.totCap.setText(Integer.toString(build.get(position).TotalCapacity));
+        holder.distance.setText(Double.toString(build.get(position).distance) + " m");
         view.setTag(holder);
         return view;
     }

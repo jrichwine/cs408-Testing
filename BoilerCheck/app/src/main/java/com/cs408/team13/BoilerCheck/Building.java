@@ -12,6 +12,7 @@ public class Building implements Comparable<Building> {
     public double[] Coordinates;
     public int TotalCapacity;
     public int CurrentCapacity;
+    public int distance;
 
 
     public int compareTo(Building anotherBuilding) throws ClassCastException {
