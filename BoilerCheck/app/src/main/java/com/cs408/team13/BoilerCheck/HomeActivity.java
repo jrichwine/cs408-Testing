@@ -291,6 +291,8 @@ public class HomeActivity extends AppCompatActivity  {
                             Log.d("Data returned", formattedResponse);
 
                             BoilerCheck.loadedBuildings = gson.fromJson(formattedResponse, Buildings.class);
+                            BoilerCheck.loadedBuildings.distanceSort();
+                            BoilerCheck.loadedBuildings.nearestBuilding();
 
                             onPostExecute(true);
                         } catch (Exception e) {

@@ -2,8 +2,11 @@ package com.cs408.team13.BoilerCheck;
 
 
 import android.os.Build;
+import android.widget.Toast;
+import android.util.Log;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Comparator;
 
 /**
@@ -11,7 +14,7 @@ import java.util.Comparator;
  */
 public class Buildings {
     public Building[] Buildings;
-    private double shortestDistance = Integer.MAX_VALUE;
+    private double shortestDistance = Double.MAX_VALUE;
     public static Comparator<Building> NAME_ORDER =
             new Comparator<Building>() {
                 //@Override
@@ -30,19 +33,25 @@ public class Buildings {
         for(Building b : BoilerCheck.loadedBuildings.Buildings) {
             double[] buildingLocation = b.Coordinates;
             double distance = BoilerCheck.locationService.calculateDistance(userLat, userLong, buildingLocation[0], buildingLocation[1]);
+            b.distance = (int)distance;
             if (distance < shortestDistance) {
                 shortestDistance = distance;
                 closestBuilding = b;
             }
         }
-        if(isClose(shortestDistance))
+        Log.i("SHORTEST DISTANCE: ", shortestDistance + "meters");
+        if(isClose(shortestDistance)) {
+            shortestDistance = Double.MAX_VALUE;
             return closestBuilding;
-        else
+        }
+        else {
+            shortestDistance = Double.MAX_VALUE;
             return null;
+        }
     }
 
     public boolean isClose(double distance) {
-        if(distance < 15)
+        if(distance < 30)
             return true;
 
         return false;
@@ -53,7 +62,7 @@ public class Buildings {
     }
 
     public void distanceSort() {
-        Arrays.sort(Buildings);
+        Arrays.sort(Buildings, Collections.reverseOrder());
     }
 
 
