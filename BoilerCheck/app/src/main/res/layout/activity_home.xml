@@ -24,12 +24,12 @@
         android:layout_height="match_parent"
         android:gravity="bottom">
 
-        <Button
-            android:layout_width="140dp"
-            android:layout_height="186dp"
-            android:id="@+id/button_logout"
-            android:onClick="attemptLogout"
-            android:text="@string/button_logout" />
+        <!--<Button-->
+            <!--android:layout_width="140dp"-->
+            <!--android:layout_height="186dp"-->
+            <!--android:id="@+id/button_logout"-->
+            <!--android:onClick="attemptLogout"-->
+            <!--android:text="@string/button_logout" />-->
 
     <LinearLayout
         android:orientation="horizontal"

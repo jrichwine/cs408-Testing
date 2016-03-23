@@ -7,6 +7,9 @@ import android.os.Looper;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.TextView;
 import android.view.View;
@@ -60,6 +63,25 @@ public class HomeActivity extends AppCompatActivity  {
         getData();
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.toolbar, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()) {
+            case R.id.action_logout:
+                attemptLogout();
+                break;
+            default:
+                break;
+        }
+        return true;
+    }
+
     public void viewList(View v) {
         Intent i = new Intent(this, ListActivity.class).putExtra("filter", (int)v.getTag());
         startActivity(i);
@@ -72,7 +94,7 @@ public class HomeActivity extends AppCompatActivity  {
 
     }
 
-    public void attemptLogout(View v) {
+    public void attemptLogout() {
         mLogoutTask = new logout();
         mLogoutTask.execute((Void) null);
     }

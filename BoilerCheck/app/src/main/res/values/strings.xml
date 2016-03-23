@@ -24,4 +24,5 @@
     <string name="eat_filter">eating</string>
     <string name="work_filter">study</string>
     <string name="play_filter">recreation</string>
+    <string name="action_logout">Logout</string>
 </resources>
