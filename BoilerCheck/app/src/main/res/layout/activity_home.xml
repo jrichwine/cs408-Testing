@@ -69,7 +69,6 @@
                 android:text="@string/button_play"
                 android:id="@+id/textView"
                 android:textSize="30sp"
-                android:layout_marginLeft="-20dp"
                 android:layout_marginRight="-10dp"
                 android:gravity="center"
                 android:textColor="#ffffff" />
@@ -81,9 +80,10 @@
                 android:text="@string/button_work"
                 android:id="@+id/textView2"
                 android:textSize="30sp"
-                android:layout_marginLeft="-10dp"
+                android:layout_marginLeft="-20dp"
                 android:gravity="center_horizontal"
-                android:textColor="#ffffff" />
+                android:textColor="#ffffff"
+                android:layout_marginRight="-20dp" />
 
             <TextView
                 android:layout_width="140dp"
@@ -93,7 +93,6 @@
                 android:id="@+id/textView3"
                 android:textSize="30sp"
                 android:layout_marginLeft="-20dp"
-                android:layout_marginRight="-10dp"
                 android:gravity="center_horizontal"
                 android:textColor="#ffffff" />
         </LinearLayout>

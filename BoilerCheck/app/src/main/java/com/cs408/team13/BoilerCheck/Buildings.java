@@ -6,6 +6,7 @@ import android.widget.Toast;
 import android.util.Log;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Comparator;
 
 /**
@@ -32,6 +33,7 @@ public class Buildings {
         for(Building b : BoilerCheck.loadedBuildings.Buildings) {
             double[] buildingLocation = b.Coordinates;
             double distance = BoilerCheck.locationService.calculateDistance(userLat, userLong, buildingLocation[0], buildingLocation[1]);
+            b.distance = (int)distance;
             if (distance < shortestDistance) {
                 shortestDistance = distance;
                 closestBuilding = b;
@@ -60,7 +62,7 @@ public class Buildings {
     }
 
     public void distanceSort() {
-        Arrays.sort(Buildings);
+        Arrays.sort(Buildings, Collections.reverseOrder());
     }
 
 

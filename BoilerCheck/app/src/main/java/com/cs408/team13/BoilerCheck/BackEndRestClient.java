@@ -7,7 +7,11 @@ import com.loopj.android.http.*;
 public class BackEndRestClient {
 
         //Address of local dev machine
+<<<<<<< HEAD
         private static final String BASE_URL = "http://128.210.106.77:3000/";
+=======
+        private static final String BASE_URL = "http://10.184.167.61:3000/";
+>>>>>>> master
 
         private static AsyncHttpClient client = new AsyncHttpClient();
 

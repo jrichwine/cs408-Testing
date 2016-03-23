@@ -54,10 +54,10 @@ public class CheckOutTask extends AsyncTask<Void, Void, String>
 
         switch(result)
         {
-            case "0": Toast.makeText(viewContext, "CheckOut Success:" + BoilerCheck.CurrentBuilding, Toast.LENGTH_SHORT).show();
+            case "0": Toast.makeText(viewContext, "Checkout Success:" + BoilerCheck.CurrentBuilding, Toast.LENGTH_SHORT).show();
                 BoilerCheck.CurrentBuilding = null;
                 break;
-            case "1":   Toast.makeText(viewContext, "CheckOut Failure:" + BoilerCheck.CurrentBuilding, Toast.LENGTH_SHORT).show();
+            case "1":   Toast.makeText(viewContext, "Checkout Failure:" + BoilerCheck.CurrentBuilding, Toast.LENGTH_SHORT).show();
                 break;
             case "2":
                 //async task is complete, do something else

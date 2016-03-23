@@ -61,10 +61,10 @@ public class CheckInTask extends AsyncTask<Void, Void, String>
 
         switch(result)
         {
-            case "0": Toast.makeText(viewContext, "CheckIn Success:" + building, Toast.LENGTH_SHORT).show();
+            case "0": Toast.makeText(viewContext, "Check-in Success:" + building, Toast.LENGTH_SHORT).show();
                 BoilerCheck.CurrentBuilding = building;
                 break;
-            case "1": Toast.makeText(viewContext, "CheckIn Failure:" + building, Toast.LENGTH_SHORT).show();
+            case "1": Toast.makeText(viewContext, "Check-in Failure:" + building, Toast.LENGTH_SHORT).show();
                 break;
             case "2":
                 //async task is complete, do something else
