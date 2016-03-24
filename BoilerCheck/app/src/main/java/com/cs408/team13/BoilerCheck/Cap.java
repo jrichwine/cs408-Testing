@@ -5,5 +5,6 @@ package com.cs408.team13.BoilerCheck;
  */
 public class Cap {
     public String _id;
+    public String BuildingName;
     public int CurrentCapacity;
 }
