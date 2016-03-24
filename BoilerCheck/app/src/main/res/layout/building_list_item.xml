@@ -10,12 +10,12 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Building"
         android:id="@+id/name"
-        android:layout_margin="10dp"
-        android:background="#d1f4f4f4"
+        android:background="#d1f7f7f7"
         android:padding="15dp"
         android:layout_marginTop="15dp"
         android:shadowColor="#ececec"
-        android:singleLine="true" />
+        android:singleLine="true"
+        android:layout_gravity="bottom|right" />
 
     <LinearLayout
         android:orientation="horizontal"
@@ -23,7 +23,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/stuff"
         android:touchscreenBlocksFocus="false"
-        android:visibility="gone">
+        android:background="#d1f7f7f7">
 
         <LinearLayout
             android:orientation="vertical"
@@ -38,13 +38,15 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Current Capacity: " />
+                    android:text="Current Capacity: "
+                    android:layout_gravity="left" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Current Capacity"
-                    android:id="@+id/curr_cap" />
+                    android:id="@+id/curr_cap"
+                    android:layout_gravity="right" />
             </LinearLayout>
 
             <LinearLayout
@@ -55,13 +57,16 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Total Capacity: " />
+                    android:text="Total Capacity: "
+                    android:autoText="false"
+                    android:layout_gravity="left" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Total Capacity"
-                    android:id="@+id/tot_cap" />
+                    android:id="@+id/tot_cap"
+                    android:layout_gravity="right" />
 
         </LinearLayout>
 
@@ -73,13 +78,15 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Distance " />
+                    android:text="Distance "
+                    android:layout_gravity="left" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Distance"
-                    android:id="@+id/tot_dis" />
+                    android:id="@+id/tot_dis"
+                    android:layout_gravity="right" />
 
             </LinearLayout>
 
@@ -89,13 +96,19 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Check In"
-            android:id="@+id/check_in" />
+            android:id="@+id/check_in"
+            android:background="#0e2f4d"
+            android:backgroundTint="#1a364f"
+            android:textColor="#ffffff" />
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Check Out"
-            android:id="@+id/check_out" />
+            android:id="@+id/check_out"
+            android:background="#b02016"
+            android:backgroundTint="#bf3a31"
+            android:textColor="#ffffff" />
     </LinearLayout>
 
 </LinearLayout>
