@@ -67,7 +67,6 @@ public class BuildingListAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         final View view;
         ViewHolder holder;
-        ViewHolder holder1;
         if (convertView == null) {
             view = ((LayoutInflater)ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.building_list_item, parent, false);
             holder = new ViewHolder();

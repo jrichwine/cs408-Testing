@@ -19,6 +19,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.app.Activity;
+import android.location.LocationManager;
 
 
 import com.google.android.gms.common.ConnectionResult;
@@ -55,6 +56,8 @@ public class LocationService implements GoogleApiClient.ConnectionCallbacks, Goo
                 .setInterval(10000)
                 .setFastestInterval(1000);
 
+        // Acquire a reference to the system Location Manager
+        LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
     }
 
     public synchronized void buildGoogleApiClient() {
