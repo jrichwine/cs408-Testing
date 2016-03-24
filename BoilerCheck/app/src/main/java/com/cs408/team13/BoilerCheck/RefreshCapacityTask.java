@@ -1,9 +1,11 @@
 package com.cs408.team13.BoilerCheck;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Looper;
 import android.util.Log;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -45,9 +47,16 @@ public class RefreshCapacityTask extends AsyncTask<Void, Void, String>
 
                         Caps c = gson.fromJson(formattedResponse, Caps.class);
 
-                        for(int i = 0; i < c.Caps.size(); i++)
+                        /*for(int i = 0; i < c.Caps.size(); i++)
                         {
                             BoilerCheck.loadedBuildings.Buildings[i].CurrentCapacity = c.Caps.get(i).CurrentCapacity;
+                        }*/
+                        for (Cap responseCap : c.Caps) {
+                            for (Building devBuilding : BoilerCheck.loadedBuildings.Buildings) {
+                                if (responseCap.BuildingName.equals(devBuilding.BuildingName)) {
+                                    devBuilding.CurrentCapacity = responseCap.CurrentCapacity;
+                                }
+                            }
                         }
 
                         onPostExecute("0");
@@ -81,6 +90,7 @@ public class RefreshCapacityTask extends AsyncTask<Void, Void, String>
             case "1": Toast.makeText(viewContext, "Failed Updated Capacities", Toast.LENGTH_SHORT).show();
                     break;
             case "2":
+                ((BuildingListAdapter)((ListView)((Activity)viewContext).findViewById(R.id.building_list)).getAdapter()).notifyDataSetChanged();
                     //async task is complete, do something else, like refresh listview
                     break;
         }
