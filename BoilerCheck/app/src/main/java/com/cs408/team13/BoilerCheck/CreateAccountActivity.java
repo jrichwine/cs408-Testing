@@ -367,8 +367,8 @@ public class CreateAccountActivity extends AppCompatActivity implements LoaderCa
             if (success) {
                 finish();
             } else {
-                mPasswordView.setError(getString(R.string.error_incorrect_password));
-                mPasswordView.requestFocus();
+                mEmailView.setError(getString(R.string.error_user_exists));
+                mEmailView.requestFocus();
             }
         }
 

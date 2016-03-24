@@ -59,6 +59,13 @@ public class HomeActivity extends AppCompatActivity  {
         mStudyButton.setTag(R.string.work_filter);
         mPlayButton.setTag(R.string.play_filter);
 
+        if (BoilerCheck.CurrentBuilding == null) {
+            mTextView.setText("Not Checked In");
+        }
+        else {
+            mTextView.setText("Checked in to: " + BoilerCheck.CurrentBuilding);
+        }
+
 
         getData();
     }
