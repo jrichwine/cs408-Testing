@@ -55,13 +55,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private static final int REQUEST_READ_CONTACTS = 0;
 
     /**
-     * A dummy authentication store containing known user names and passwords.
-     * TODO: remove after connecting to a real authentication system.
-     */
-    private static final String[] DUMMY_CREDENTIALS = new String[]{
-            "foo@example.com:hello", "bar@example.com:world"
-    };
-    /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
     private UserLoginTask mAuthTask = null;
@@ -100,8 +93,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 attemptLogin();
             }
         });
-
-
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
@@ -315,7 +306,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      * Represents an asynchronous login/registration task used to authenticate
      * the user.
      */
-    public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
+    public class UserLoginTask extends AsyncTask<Void, Void, String> {
 
         private final String mEmail;
         private final String mPassword;
@@ -326,7 +317,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         }
 
         @Override
-        protected Boolean doInBackground(Void... params) {
+        protected String doInBackground(Void... params) {
             try {
                 RequestParams rparams = new RequestParams();
                 rparams.put("email", mEmail);
@@ -344,38 +335,45 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                         public void onSuccess(int statusCode, Header[] headers, byte[] response) {
                             // called when response HTTP status is "200 OK"
                             Log.d("onSuccess", "StatusCode:" + statusCode);
-                            onPostExecute(true);
+                            onPostExecute("0");
                         }
 
                         @Override
                         public void onFailure(int statusCode, Header[] headers, byte[] errorResponse, Throwable e) {
                             // called when response HTTP status is "4XX" (eg. 401, 403, 404)
                             Log.d("onFailure", "StatusCode:" + statusCode);
-                            onPostExecute(false);
+                            onPostExecute("1");
                         }
                     });
                 Thread.sleep(200);
             } catch (InterruptedException e) {
-                return false;
+                return "1";
             }
 
-            return false;
+            return "2";
         }
 
         @Override
-        protected void onPostExecute(final Boolean success) {
+        protected void onPostExecute(final String success) {
             mAuthTask = null;
             showProgress(false);
 
-            if (success) {
-                finish();
-                //Load next page
-                Intent intent_name = new Intent();
-                intent_name.setClass(getApplicationContext(), HomeActivity.class);
-                startActivity(intent_name);
-            } else {
-                mPasswordView.setError(getString(R.string.error_incorrect_password));
-                mPasswordView.requestFocus();
+            switch (success) {
+                case "0":
+                    SaveSharedPreference.setUserName(LoginActivity.this, mEmail);
+                    SaveSharedPreference.setPassword(LoginActivity.this, mPassword);
+                    break;
+                case "1":
+                    mEmailView.setError(getString(R.string.error_invalid_login));
+                    mEmailView.requestFocus();
+                    break;
+                case "2":
+                    finish();
+                    //Load next page
+                    Intent intent_name = new Intent();
+                    intent_name.setClass(getApplicationContext(), HomeActivity.class);
+                    startActivity(intent_name);
+                    break;
             }
         }
 
