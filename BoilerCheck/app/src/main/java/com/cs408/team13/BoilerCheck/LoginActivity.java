@@ -368,14 +368,16 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             showProgress(false);
 
             if (success) {
+                SaveSharedPreference.setUserName(LoginActivity.this, mEmail);
+                SaveSharedPreference.setPassword(LoginActivity.this, mPassword);
                 finish();
                 //Load next page
                 Intent intent_name = new Intent();
                 intent_name.setClass(getApplicationContext(), HomeActivity.class);
                 startActivity(intent_name);
             } else {
-                mPasswordView.setError(getString(R.string.error_incorrect_password));
-                mPasswordView.requestFocus();
+                mEmailView.setError(getString(R.string.error_invalid_login));
+                mEmailView.requestFocus();
             }
         }
 

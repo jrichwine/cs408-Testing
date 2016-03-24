@@ -7,10 +7,12 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.cs408.team13.BoilerCheck.ListActivity">
+    tools:context="com.cs408.team13.BoilerCheck.ListActivity"
+    android:background="@drawable/background">
 
     <ListView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/building_list" />
+        android:id="@+id/building_list"
+        android:background="@drawable/background" />
 </LinearLayout>
