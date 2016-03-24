@@ -1,11 +1,15 @@
 package com.cs408.team13.BoilerCheck;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Looper;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.TextView;
 import android.view.View;
@@ -24,14 +28,28 @@ import cz.msebera.android.httpclient.cookie.Cookie;
 public class HomeActivity extends AppCompatActivity  {
 
     private TextView mTextView;
+    private logout mLogoutTask = null;
+    private UserLoginTask mLoginTask = null;
     private Button mEatButton;
     private Button mStudyButton;
     private Button mPlayButton;
     private GetBuildingData mAuthTask = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+//        SaveSharedPreference.clear(HomeActivity.this);
+        if(SaveSharedPreference.getUserName(HomeActivity.this).length() == 0) {
+            Intent i = new Intent(this, LoginActivity.class);
+            startActivity(i);
+        }
+        else {
+            mLoginTask = new UserLoginTask(SaveSharedPreference.getUserName(HomeActivity.this), SaveSharedPreference.getPassword(HomeActivity.this));
+            mLoginTask.execute((Void) null);
+        }
+
 
         mTextView = (TextView) findViewById(R.id.textView_home);
         mEatButton = (Button) findViewById(R.id.button_eat);
@@ -41,7 +59,34 @@ public class HomeActivity extends AppCompatActivity  {
         mStudyButton.setTag(R.string.work_filter);
         mPlayButton.setTag(R.string.play_filter);
 
+        if (BoilerCheck.CurrentBuilding == null) {
+            mTextView.setText("Not Checked In");
+        }
+        else {
+            mTextView.setText("Checked in to: " + BoilerCheck.CurrentBuilding);
+        }
+
+
         getData();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.toolbar, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()) {
+            case R.id.action_logout:
+                attemptLogout();
+                break;
+            default:
+                break;
+        }
+        return true;
     }
 
     public void viewList(View v) {
@@ -51,8 +96,203 @@ public class HomeActivity extends AppCompatActivity  {
 
     public void getData() {
 
-            mAuthTask = new GetBuildingData();
-            mAuthTask.execute((Void) null);
+        mAuthTask = new GetBuildingData();
+        mAuthTask.execute((Void) null);
+
+    }
+
+    public void attemptLogout() {
+        mLogoutTask = new logout();
+        mLogoutTask.execute((Void) null);
+    }
+
+    public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
+
+        private final String mEmail;
+        private final String mPassword;
+
+        UserLoginTask(String email, String password) {
+            mEmail = email;
+            mPassword = password;
+            //this.context = context.getApplicationContext();
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            // TODO: attempt authentication against a network service.
+            try {
+
+                RequestParams rparams = new RequestParams();
+                rparams.put("email", mEmail);
+                rparams.put("password", mPassword);
+
+                BoilerCheck.RestClient.post("login", rparams, new AsyncHttpResponseHandler(Looper.getMainLooper()) {
+
+                    @Override
+                    public void onStart() {
+                        // called before request is started
+                        Log.d("onSending", "Username:" + mEmail + " Password:" + mPassword);
+                    }
+
+                    @Override
+                    public void onSuccess(int statusCode, Header[] headers, byte[] response) {
+                        // called when response HTTP status is "200 OK"
+
+                        Log.d("onSuccess", "StatusCode:" + statusCode);
+                        if(headers != null) {
+                            for (Header head : headers) {
+                                Log.d("Headers", head.getName() + ":" + head.getValue());
+                            }
+
+                            for (Cookie c : BoilerCheck.myCookieStore.getCookies()) {
+                                Log.d("Cookies", c.getName() + c.getValue());
+                            }
+                        }
+                        onPostExecute(true);
+                    }
+
+                    @Override
+                    public void onFailure(int statusCode, Header[] headers, byte[] errorResponse, Throwable e) {
+                        // called when response HTTP status is "4XX" (eg. 401, 403, 404)
+                        Log.d("onFailure", "StatusCode:" + statusCode);
+
+                        if(headers != null)
+                        {
+
+                            for (Header head : headers) {
+                                Log.d("Headers", head.getName() + ":" + head.getValue());
+                            }
+
+                            for (Cookie c : BoilerCheck.myCookieStore.getCookies()) {
+                                Log.d("Cookies", c.getName() + c.getValue());
+                            }
+                        }
+                        onPostExecute(false);
+
+                    }
+
+                    @Override
+                    public void onRetry(int retryNo) {
+                        // called when request is retried
+                    }
+                });
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                return false;
+            }
+
+            return false;
+        }
+
+        @Override
+        protected void onPostExecute(final Boolean success) {
+            mLoginTask = null;
+
+            if (success) {
+//                SaveSharedPreference.setUserName(LoginActivity.this, mEmail);
+//                finish();
+                //Load next page
+//                Intent intent_name = new Intent();
+//                intent_name.setClass(getApplicationContext(), HomeActivity.class);
+//                startActivity(intent_name);
+            }
+        }
+
+        @Override
+        protected void onCancelled() {
+            mLoginTask = null;
+        }
+    }
+
+    public class logout extends AsyncTask<Void, Void, Boolean>
+    {
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            // TODO: attempt authentication against a network service.
+            try {
+
+                RequestParams rparams = new RequestParams();
+
+                BoilerCheck.RestClient.post("/users/logout", rparams, new AsyncHttpResponseHandler(Looper.getMainLooper()) {
+
+                    @Override
+                    public void onStart() {
+                        // called before request is started
+                        List<Cookie> cookies = BoilerCheck.myCookieStore.getCookies();
+                        for (int i = 0; i < cookies.size(); i++) {
+                            Log.d("Saved Cookies: ", ":" + cookies.get(i));
+                        }
+                    }
+
+                    @Override
+                    public void onSuccess(int statusCode, Header[] headers, byte[] response) {
+                        // called when response HTTP status is "200 OK"
+
+                        Log.d("onSuccess", "StatusCode:" + statusCode);
+                        if (headers != null) {
+                            for (Header head : headers) {
+                                Log.d("Headers", head.getName() + ":" + head.getValue());
+                            }
+
+                            for (Cookie c : BoilerCheck.myCookieStore.getCookies()) {
+                                Log.d("Cookies", c.getName() + c.getValue());
+                            }
+                        }
+                        onPostExecute(true);
+                    }
+
+                    @Override
+                    public void onFailure(int statusCode, Header[] headers, byte[] errorResponse, Throwable e) {
+                        // called when response HTTP status is "4XX" (eg. 401, 403, 404)
+                        Log.d("onFailure", "StatusCode:" + statusCode);
+
+                        if (headers != null) {
+
+                            for (Header head : headers) {
+                                Log.d("Headers", head.getName() + ":" + head.getValue());
+                            }
+
+                            for (Cookie c : BoilerCheck.myCookieStore.getCookies()) {
+                                Log.d("Cookies", c.getName() + c.getValue());
+                            }
+                        }
+                        onPostExecute(false);
+
+                    }
+
+                    @Override
+                    public void onRetry(int retryNo) {
+                        // called when request is retried
+                    }
+                });
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                return false;
+            }
+
+            return false;
+        }
+
+        @Override
+        protected void onPostExecute(final Boolean success) {
+            mLogoutTask = null;
+
+            if (success) {
+//                mTextView.setText("logged out");
+                //finish();
+                SaveSharedPreference.clear(HomeActivity.this);
+                Intent i = new Intent(HomeActivity.this, LoginActivity.class);
+                startActivity(i);
+            } else {
+
+            }
+        }
+
+        @Override
+        protected void onCancelled() {
+            mAuthTask = null;
+        }
     }
 
     public class GetBuildingData extends AsyncTask<Void, Void, Boolean>
