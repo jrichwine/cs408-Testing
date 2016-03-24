@@ -42,7 +42,8 @@
             android:id="@+id/button_play"
             android:onClick="viewList"
             android:background="@drawable/play"
-            android:layout_marginRight="-10dp" />
+            android:layout_marginRight="-10dp"
+            android:layout_marginLeft="-10dp" />
 
         <Button
             android:layout_width="140dp"
