@@ -8,6 +8,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.cs408.team13.BoilerCheck.HomeActivity"
+    android:windowSoftInputMode="stateHidden"
     android:background="@drawable/background">
 
     <TextView
