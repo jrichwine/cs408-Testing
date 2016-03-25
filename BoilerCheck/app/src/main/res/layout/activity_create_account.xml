@@ -93,8 +93,8 @@
                 android:textStyle="bold"
                 android:layout_marginLeft="50dp"
                 android:layout_marginRight="50dp"
-                android:background="#ba3b27"
-                android:backgroundTint="#ec482d"
+                android:background="#b32711"
+                android:backgroundTint="#bf3a31"
                 android:textColor="#fefefe"
                 android:shadowColor="#bc3b27"
                 android:singleLine="false" />

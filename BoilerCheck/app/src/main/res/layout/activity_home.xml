@@ -8,6 +8,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.cs408.team13.BoilerCheck.HomeActivity"
+    android:windowSoftInputMode="stateHidden"
     android:background="@drawable/background">
 
     <TextView
@@ -31,7 +32,27 @@
             <!--android:onClick="attemptLogout"-->
             <!--android:text="@string/button_logout" />-->
 
-    <LinearLayout
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <Button
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/action_checkout"
+                android:onClick="attemptCheckout"
+                android:text="@string/action_checkout"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_gravity="center_horizontal"
+                android:textColor="#ffffff"
+                android:backgroundTint="#e6af2c23"
+                android:background="#871d1d" />
+        </LinearLayout>
+
+        <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -42,7 +63,8 @@
             android:id="@+id/button_play"
             android:onClick="viewList"
             android:background="@drawable/play"
-            android:layout_marginRight="-10dp" />
+            android:layout_marginRight="-10dp"
+            android:layout_marginLeft="-15dp" />
 
         <Button
             android:layout_width="140dp"
@@ -59,7 +81,7 @@
             android:id="@+id/button_eat"
             android:onClick="viewList"
             android:background="@drawable/eat"
-            android:layout_marginLeft="-20dp"
+            android:layout_marginLeft="-18dp"
             android:visibility="visible" />
 
     </LinearLayout>
@@ -77,7 +99,8 @@
                 android:textSize="30sp"
                 android:layout_marginRight="-10dp"
                 android:gravity="center"
-                android:textColor="#ffffff" />
+                android:textColor="#ffffff"
+                android:layout_marginLeft="-15dp" />
 
             <TextView
                 android:layout_width="140dp"
@@ -98,9 +121,11 @@
                 android:text="@string/button_eat"
                 android:id="@+id/textView3"
                 android:textSize="30sp"
-                android:layout_marginLeft="-20dp"
+                android:layout_marginLeft="-18dp"
                 android:gravity="center_horizontal"
                 android:textColor="#ffffff" />
         </LinearLayout>
+
     </LinearLayout>
+
 </RelativeLayout>

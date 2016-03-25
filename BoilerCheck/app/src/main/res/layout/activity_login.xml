@@ -76,11 +76,12 @@
                 android:elegantTextHeight="false"
                 android:layout_marginLeft="50dp"
                 android:layout_marginRight="50dp"
-                android:background="#1a823f"
-                android:backgroundTint="#1ea64d"
+                android:background="#4d5f70"
+                android:backgroundTint="#1a364f"
                 android:focusableInTouchMode="false"
                 android:textColor="#fefefe"
-                android:shadowColor="#1b8440" />
+                android:shadowColor="#1b8440"
+                android:allowUndo="true" />
 
             <Button
                 android:id="@+id/create_account_button"
@@ -93,8 +94,8 @@
                 android:onClick="registerAccount"
                 android:layout_marginLeft="50dp"
                 android:layout_marginRight="50dp"
-                android:background="#c34731"
-                android:backgroundTint="#ec482d"
+                android:background="#9f4a44"
+                android:backgroundTint="#bf3a31"
                 android:textColor="#fefefe" />
 
         </LinearLayout>
