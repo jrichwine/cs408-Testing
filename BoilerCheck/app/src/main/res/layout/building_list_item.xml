@@ -13,7 +13,7 @@
         android:background="#d1f7f7f7"
         android:padding="15dp"
         android:layout_marginTop="10dp"
-        android:shadowColor="#ececec"
+        android:shadowColor="#f4ececec"
         android:singleLine="true"
         android:layout_gravity="bottom|right" />
 
@@ -39,14 +39,16 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Current Capacity: "
-                    android:layout_gravity="left" />
+                    android:layout_gravity="left"
+                    android:textColor="#484341" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Current Capacity"
                     android:id="@+id/curr_cap"
-                    android:layout_gravity="right" />
+                    android:layout_gravity="right"
+                    android:textColor="#484341" />
             </LinearLayout>
 
             <LinearLayout
@@ -59,14 +61,16 @@
                     android:layout_height="wrap_content"
                     android:text="Total Capacity: "
                     android:autoText="false"
-                    android:layout_gravity="left" />
+                    android:layout_gravity="left"
+                    android:textColor="#484341" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Total Capacity"
                     android:id="@+id/tot_cap"
-                    android:layout_gravity="right" />
+                    android:layout_gravity="right"
+                    android:textColor="#484341" />
 
         </LinearLayout>
 
@@ -79,14 +83,16 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Distance "
-                    android:layout_gravity="left" />
+                    android:layout_gravity="left"
+                    android:textColor="#484341" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Distance"
                     android:id="@+id/tot_dis"
-                    android:layout_gravity="right" />
+                    android:layout_gravity="right"
+                    android:textColor="#484341" />
 
             </LinearLayout>
 
