@@ -19,15 +19,6 @@
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/action_checkout"
-        android:layout_below="@id/textView_home"
-        android:layout_centerHorizontal="true"
-        android:onClick="attemptCheckout"
-        android:text="@string/action_checkout"/>
-
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
@@ -41,7 +32,27 @@
             <!--android:onClick="attemptLogout"-->
             <!--android:text="@string/button_logout" />-->
 
-    <LinearLayout
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <Button
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/action_checkout"
+                android:onClick="attemptCheckout"
+                android:text="@string/action_checkout"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_gravity="center_horizontal"
+                android:textColor="#ffffff"
+                android:backgroundTint="#e6af2c23"
+                android:background="#871d1d" />
+        </LinearLayout>
+
+        <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -114,5 +125,7 @@
                 android:gravity="center_horizontal"
                 android:textColor="#ffffff" />
         </LinearLayout>
+
     </LinearLayout>
+
 </RelativeLayout>
