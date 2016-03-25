@@ -53,13 +53,9 @@ var userRoutes = require('./userRoutes');
 
 //Testing working correctly
 app.get('/', function (request, response) {
-    response.send('Hello, deadbeef');
+    response.send('BoilerCheck Server Functioning');
 });
 
-//Testing working correctly
-app.get('/success', function (request, response) {
-    response.send('Success, deadbeef');
-});
 
 
 //Auth before proceeding

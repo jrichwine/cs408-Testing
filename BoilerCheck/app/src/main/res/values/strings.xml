@@ -27,4 +27,6 @@
     <string name="work_filter">study</string>
     <string name="play_filter">recreation</string>
     <string name="action_logout">Logout</string>
+    <string name="action_refresh">Refresh</string>
+    <string name="action_checkout">Check-Out</string>
 </resources>

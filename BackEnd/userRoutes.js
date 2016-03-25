@@ -63,7 +63,7 @@ userRoutes.get('/refreshCapacity', function (request, response) {
     console.log("Refreshing Current Capacities For:" + request.user.local.email);
     
     //Read Total Capacity from DB
-    buildingModel.collection.find({}, { CurrentCapacity: true }).toArray(function (err, docs) {
+    buildingModel.collection.find({}, { BuildingName: true, CurrentCapacity: true }).toArray(function (err, docs) {
         response.send(docs);
     });
 });
