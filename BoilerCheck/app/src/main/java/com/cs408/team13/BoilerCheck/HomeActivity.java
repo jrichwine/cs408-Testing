@@ -29,12 +29,15 @@ import cz.msebera.android.httpclient.cookie.Cookie;
 public class HomeActivity extends AppCompatActivity  {
 
     private TextView mTextView;
+    private Button mCheckoutButton;
+    private CheckOutTask mCheckoutTask = null;
     private logout mLogoutTask = null;
     private UserLoginTask mLoginTask = null;
     private Button mEatButton;
     private Button mStudyButton;
     private Button mPlayButton;
     private GetBuildingData mAuthTask = null;
+    private RefreshCapacityTask mRefreshCapacityTask = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +47,7 @@ public class HomeActivity extends AppCompatActivity  {
 //        SaveSharedPreference.clear(HomeActivity.this);
         if(SaveSharedPreference.getUserName(HomeActivity.this).length() == 0) {
             Intent i = new Intent(this, LoginActivity.class);
+            finish();
             startActivity(i);
         }
         else {
@@ -52,6 +56,7 @@ public class HomeActivity extends AppCompatActivity  {
         }
 
 
+        mCheckoutButton = (Button) findViewById(R.id.action_checkout);
         mTextView = (TextView) findViewById(R.id.textView_home);
         mEatButton = (Button) findViewById(R.id.button_eat);
         mStudyButton = (Button) findViewById(R.id.button_work);
@@ -63,20 +68,46 @@ public class HomeActivity extends AppCompatActivity  {
         if (BoilerCheck.CurrentBuilding == null) {
             mTextView.setTextColor(Color.RED);
             mTextView.setText("Not Checked In");
+            mCheckoutButton.setEnabled(false);
+            mCheckoutButton.setVisibility(View.INVISIBLE);
         }
         else {
             mTextView.setTextColor(Color.WHITE);
             mTextView.setText("Checked in to: " + BoilerCheck.CurrentBuilding);
+            mCheckoutButton.setEnabled(true);
+            mCheckoutButton.setVisibility(View.VISIBLE);
         }
 
+//        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         getData();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        if (BoilerCheck.CurrentBuilding == null) {
+            mTextView.setTextColor(Color.RED);
+            mTextView.setText("Not Checked In");
+            mCheckoutButton.setEnabled(false);
+            mCheckoutButton.setVisibility(View.INVISIBLE);
+        }
+        else {
+            mTextView.setTextColor(Color.WHITE);
+            mTextView.setText("Checked in to: " + BoilerCheck.CurrentBuilding);
+            mCheckoutButton.setEnabled(true);
+            mCheckoutButton.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.toolbar, menu);
+        MenuItem refresh = menu.findItem(R.id.action_refresh);
+        refresh.setVisible(false);
+        refresh.setEnabled(false);
         return true;
     }
 
@@ -107,6 +138,15 @@ public class HomeActivity extends AppCompatActivity  {
     public void attemptLogout() {
         mLogoutTask = new logout();
         mLogoutTask.execute((Void) null);
+    }
+
+    public void attemptCheckout(View v) {
+        mCheckoutTask = new CheckOutTask(HomeActivity.this);
+        mCheckoutTask.execute((Void) null);
+        mTextView.setTextColor(Color.RED);
+        mTextView.setText("Not Checked In");
+        mCheckoutButton.setEnabled(false);
+        mCheckoutButton.setVisibility(View.INVISIBLE);
     }
 
     public class UserLoginTask extends AsyncTask<Void, Void, String> {
