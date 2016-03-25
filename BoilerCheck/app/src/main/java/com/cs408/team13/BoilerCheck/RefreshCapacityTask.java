@@ -21,9 +21,11 @@ import cz.msebera.android.httpclient.Header;
 public class RefreshCapacityTask extends AsyncTask<Void, Void, String>
 {
     private final Context viewContext;
+    private int caller = -1;
     private boolean result = false;
-    RefreshCapacityTask(Context context) {
+    RefreshCapacityTask(Context context, int caller) {
         this.viewContext = context;
+        this.caller = caller;
     }
 
     @Override
@@ -77,6 +79,10 @@ public class RefreshCapacityTask extends AsyncTask<Void, Void, String>
         } catch (InterruptedException e) {
             return "1";
         }
+
+        if (caller == 2)
+            return "0";
+
         return "2";
     }
 

@@ -54,10 +54,9 @@ public class LocationService implements GoogleApiClient.ConnectionCallbacks, Goo
         locationRequest = LocationRequest.create()
                 .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
                 .setInterval(10000)
-                .setFastestInterval(1000);
+                .setFastestInterval(1000)
+                .setSmallestDisplacement(5);
 
-        // Acquire a reference to the system Location Manager
-        LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
     }
 
     public synchronized void buildGoogleApiClient() {
@@ -144,14 +143,15 @@ public class LocationService implements GoogleApiClient.ConnectionCallbacks, Goo
         }
         else {*/
         if(ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            LocationServices.FusedLocationApi.requestLocationUpdates(client, locationRequest,  this);
             lastLocation = LocationServices.FusedLocationApi.getLastLocation(client);
             if (lastLocation != null) {
                 latitude = lastLocation.getLatitude();
                 longitude = lastLocation.getLongitude();
             }
             Log.i("OnConnected", "Location services is connected" + " " + latitude + " " + longitude);
-
         }
+
 
 
         //}
@@ -175,18 +175,20 @@ public class LocationService implements GoogleApiClient.ConnectionCallbacks, Goo
         latitude = location.getLatitude();
         longitude = location.getLongitude();
         Toast.makeText(context, "Location has changed", Toast.LENGTH_LONG);
-        Building closestBuilding = BoilerCheck.loadedBuildings.nearestBuilding();
-        if(closestBuilding == null || !(closestBuilding.BuildingName.equals(BoilerCheck.CurrentBuilding))) {
-            Toast.makeText(context, "Not at checked-in building. Trying to Checkout of Building.",Toast.LENGTH_SHORT).show();
-            mCheckOutTask = new CheckOutTask(context);
-            mCheckOutTask.execute((Void) null);
+        if(BoilerCheck.loadedBuildings != null) {
+            Building closestBuilding = BoilerCheck.loadedBuildings.nearestBuilding();
+            if(BoilerCheck.CurrentBuilding != null && (closestBuilding == null || !(closestBuilding.BuildingName.equals(BoilerCheck.CurrentBuilding)))) {
+                Toast.makeText(context, "Not at checked-in building. Trying to Checkout of Building.", Toast.LENGTH_SHORT).show();
+                mCheckOutTask = new CheckOutTask(context);
+                mCheckOutTask.execute((Void) null);
 
-            Toast.makeText(context, "Not at checked-in building. Successfully checked out of: " + BoilerCheck.CurrentBuilding, Toast.LENGTH_SHORT).show();
-            BoilerCheck.CurrentBuilding = null;
+                Toast.makeText(context, "Not at checked-in building. Successfully checked out of: " + BoilerCheck.CurrentBuilding, Toast.LENGTH_SHORT).show();
+                BoilerCheck.CurrentBuilding = null;
 
-            //Test Refresh
-            mRefreshCapacityTask = new RefreshCapacityTask(context);
-            mRefreshCapacityTask.execute((Void) null);
+                //Test Refresh
+                mRefreshCapacityTask = new RefreshCapacityTask(context, 2);
+                mRefreshCapacityTask.execute((Void) null);
+            }
         }
     }
 

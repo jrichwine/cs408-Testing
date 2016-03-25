@@ -107,7 +107,7 @@ public class BuildingListAdapter extends BaseAdapter {
                             mCheckInTask = new CheckInTask(currentBuilding, view.getContext());
                             mCheckInTask.execute((Void) null);
                             //Test Refresh
-                            mRefreshCapacityTask = new RefreshCapacityTask(view.getContext());
+                            mRefreshCapacityTask = new RefreshCapacityTask(view.getContext(), 1);
                             mRefreshCapacityTask.execute((Void) null);
                         }
                         else if(BoilerCheck.CurrentBuilding.equals(currentBuilding)) {
@@ -122,7 +122,7 @@ public class BuildingListAdapter extends BaseAdapter {
                             mCheckInTask = new CheckInTask(currentBuilding, view.getContext());
                             mCheckInTask.execute((Void) null);
                             //Test Refresh
-                            mRefreshCapacityTask = new RefreshCapacityTask(view.getContext());
+                            mRefreshCapacityTask = new RefreshCapacityTask(view.getContext(), 1);
                             mRefreshCapacityTask.execute((Void) null);
 
                         }
@@ -154,7 +154,7 @@ public class BuildingListAdapter extends BaseAdapter {
                         mCheckOutTask = new CheckOutTask(view.getContext());
                         mCheckOutTask.execute((Void) null);
                         //Test Refresh
-                        mRefreshCapacityTask = new RefreshCapacityTask(view.getContext());
+                        mRefreshCapacityTask = new RefreshCapacityTask(view.getContext(), 1);
                         mRefreshCapacityTask.execute((Void) null);
 
                         Toast.makeText(view.getContext(), "Successfully checked out of: " + BoilerCheck.CurrentBuilding, Toast.LENGTH_SHORT).show();

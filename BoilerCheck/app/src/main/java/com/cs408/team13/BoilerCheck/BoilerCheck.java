@@ -1,6 +1,8 @@
 package com.cs408.team13.BoilerCheck;
 
 import android.app.Application;
+import android.content.Context;
+import android.location.LocationManager;
 
 import com.loopj.android.http.PersistentCookieStore;
 
@@ -25,5 +27,6 @@ public class BoilerCheck extends Application {
         RestClient.setCookieStore(myCookieStore);
         locationService = new LocationService(this);
         locationService.connect();
+
     }
 }
