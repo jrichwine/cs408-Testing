@@ -4,6 +4,16 @@
 
     <!-- Logout Button -->
     <item
+        android:id="@+id/action_refresh"
+        android:title="@string/action_refresh"
+        app:showAsAction="always"/>
+
+    <!--<item-->
+        <!--android:id="@+id/action_checkout"-->
+        <!--android:title="@string/action_checkout"-->
+        <!--app:showAsAction="ifRoom"/>-->
+
+    <item
         android:id="@+id/action_logout"
         android:title="@string/action_logout"
         app:showAsAction="always"/>
