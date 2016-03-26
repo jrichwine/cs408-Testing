@@ -1,10 +1,12 @@
 package com.cs408.team13.BoilerCheck;
 
+import android.Manifest;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Looper;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,6 +18,7 @@ import android.widget.TextView;
 import android.view.View;
 import android.content.Intent;
 import android.widget.Toast;
+import android.content.pm.PackageManager;
 
 import com.google.gson.Gson;
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -39,10 +42,30 @@ public class HomeActivity extends AppCompatActivity  {
     private GetBuildingData mAuthTask = null;
     private RefreshCapacityTask mRefreshCapacityTask = null;
 
+    private final static int perms = 42;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+
+        if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                Manifest.permission.ACCESS_FINE_LOCATION)) {
+
+            // Show an expanation to the user *asynchronously* -- don't block
+            // this thread waiting for the user's response! After the user
+            // sees the explanation, try again to request the permission.
+
+        } else {
+
+            // No explanation needed, we can request the permission.
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                    perms);
+
+        }
+        //
 
 //        SaveSharedPreference.clear(HomeActivity.this);
         if(SaveSharedPreference.getUserName(HomeActivity.this).length() == 0) {
@@ -54,6 +77,7 @@ public class HomeActivity extends AppCompatActivity  {
             mLoginTask = new UserLoginTask(SaveSharedPreference.getUserName(HomeActivity.this), SaveSharedPreference.getPassword(HomeActivity.this));
             mLoginTask.execute((Void) null);
         }
+
 
 
         mCheckoutButton = (Button) findViewById(R.id.action_checkout);
@@ -82,6 +106,41 @@ public class HomeActivity extends AppCompatActivity  {
 
         getData();
     }
+
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case perms: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    BoilerCheck.locationService = new LocationService(BoilerCheck.me);
+                    BoilerCheck.locationService.connect();
+
+                } else {
+
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+                }
+                return;
+            }
+
+            // other 'case' lines to check for other
+            // permissions this app might request
+        }
+    }
+
+
+
+
+
+
+
+
 
     @Override
     public void onResume() {

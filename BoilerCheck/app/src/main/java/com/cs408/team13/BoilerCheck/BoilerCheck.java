@@ -17,6 +17,7 @@ public class BoilerCheck extends Application {
     public static LocationService locationService;
     public static Buildings loadedBuildings;
     public static String CurrentBuilding = null;
+    public static BoilerCheck me;
 
     @Override
     public void onCreate()
@@ -25,8 +26,6 @@ public class BoilerCheck extends Application {
         RestClient = new BackEndRestClient();
         myCookieStore = new PersistentCookieStore(this);
         RestClient.setCookieStore(myCookieStore);
-        locationService = new LocationService(this);
-        locationService.connect();
-
+        me = this;
     }
 }
