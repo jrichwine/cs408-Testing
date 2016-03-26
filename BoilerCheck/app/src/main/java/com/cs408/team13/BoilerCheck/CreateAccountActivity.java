@@ -30,6 +30,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -299,7 +300,7 @@ public class CreateAccountActivity extends AppCompatActivity implements LoaderCa
      * Represents an asynchronous login/registration task used to authenticate
      * the user.
      */
-    public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
+    public class UserLoginTask extends AsyncTask<Void, Void, String> {
 
         private final String mEmail;
         private final String mPassword;
@@ -310,7 +311,7 @@ public class CreateAccountActivity extends AppCompatActivity implements LoaderCa
         }
 
         @Override
-        protected Boolean doInBackground(Void... params) {
+        protected String doInBackground(Void... params) {
 
             try {
 
@@ -331,7 +332,7 @@ public class CreateAccountActivity extends AppCompatActivity implements LoaderCa
                         // called when response HTTP status is "200 OK"
                         Log.d("onSuccess", "StatusCode:" + statusCode);
 
-                        onPostExecute(true);
+                        onPostExecute("0");
                     }
 
                     @Override
@@ -339,29 +340,35 @@ public class CreateAccountActivity extends AppCompatActivity implements LoaderCa
                         // called when response HTTP status is "4XX" (eg. 401, 403, 404)
                         Log.d("onFailure", "StatusCode:" + statusCode);
 
-                        onPostExecute(false);
+                        onPostExecute("1");
 
                     }
 
                 });
                 Thread.sleep(200);
             } catch (InterruptedException e) {
-                return false;
+                return "1";
             }
 
-            return false;
+            return "2";
         }
 
         @Override
-        protected void onPostExecute(final Boolean success) {
+        protected void onPostExecute(final String success) {
             mAuthTask = null;
             showProgress(false);
 
-            if (success) {
-                finish();
-            } else {
+            switch (success) {
+                case "0":
+                    Toast.makeText(mEmailView.getContext(), "User Created Sucessfully!", Toast.LENGTH_LONG).show();
+                    break;
+                case "1":
                 mEmailView.setError(getString(R.string.error_user_exists));
                 mEmailView.requestFocus();
+                    break;
+                case "2":
+                    finish();
+                    break;
             }
         }
 

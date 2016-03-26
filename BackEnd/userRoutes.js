@@ -81,13 +81,7 @@ userRoutes.get('/getBuildings', function (request, response) {
 });
 
 
-//Handle user logout
-userRoutes.post('/logout', function (request, response) {
-    //Assumed checkout already called from app
-    //Destroy current session
-    request.logOut();
-    response.send(200);
-});
+
 
 //Update building capacity in database
 function updateCapacity(buildingName, status) {
