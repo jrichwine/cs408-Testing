@@ -176,9 +176,17 @@ public class LocationService implements GoogleApiClient.ConnectionCallbacks, Goo
                 Toast.makeText(context, "Not at checked-in building. Successfully checked out of: " + BoilerCheck.CurrentBuilding, Toast.LENGTH_SHORT).show();
                 BoilerCheck.CurrentBuilding = null;
 
-                //Test Refresh
-                mRefreshCapacityTask = new RefreshCapacityTask(context, 2);
-                mRefreshCapacityTask.execute((Void) null);
+                //How to determine if home calls it or buildinglistadapter calls it?
+                if((Activity) context instanceof HomeActivity )
+                {
+                    mRefreshCapacityTask = new RefreshCapacityTask(context, 2);
+                    mRefreshCapacityTask.execute((Void) null);
+                }
+                else
+                {
+                    mRefreshCapacityTask = new RefreshCapacityTask(context, 1);
+                    mRefreshCapacityTask.execute((Void) null);
+                }
             }
         }
     }

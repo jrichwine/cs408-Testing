@@ -36,9 +36,6 @@ public class BuildingListAdapter extends BaseAdapter {
             if (a.Category.equals(ctx.getString(filt)))
                 this.build.add(a);
         }
-
-        BoilerCheck.locationService = new LocationService(BoilerCheck.me);
-        BoilerCheck.locationService.connect();
     }
 
     public class ViewHolder {
