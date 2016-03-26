@@ -72,6 +72,15 @@ var checkAuth = function(req, res, next) {
     }
 };
 
+//Handle user logout
+app.post('/logout', function (request, response) {
+    //Assumed checkout already called from app
+    //Destroy current session
+    request.logOut();
+    response.sendStatus(200);
+});
+
+
 
 //Load Route Handlers
 app.use('/users' , checkAuth, userRoutes);

@@ -245,7 +245,7 @@ public class HomeActivity extends AppCompatActivity  {
 
                 RequestParams rparams = new RequestParams();
 
-                BoilerCheck.RestClient.post("/users/logout", rparams, new AsyncHttpResponseHandler(Looper.getMainLooper()) {
+                BoilerCheck.RestClient.post("logout", rparams, new AsyncHttpResponseHandler(Looper.getMainLooper()) {
 
                     @Override
                     public void onStart() {
