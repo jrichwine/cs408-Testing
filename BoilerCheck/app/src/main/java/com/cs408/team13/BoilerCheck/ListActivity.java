@@ -63,7 +63,7 @@ public class ListActivity extends AppCompatActivity {
     }
 
     public void attemptRefresh() {
-        mRefreshCapacityTask = new RefreshCapacityTask(ListActivity.this);
+        mRefreshCapacityTask = new RefreshCapacityTask(ListActivity.this, 1);
         mRefreshCapacityTask.execute((Void) null);
     }
 
