@@ -119,7 +119,6 @@ public class ListActivity extends AppCompatActivity {
             switch(result)
             {
                 case "0":
-                    SaveSharedPreference.clear(ListActivity.this);
                     Intent i = new Intent(ListActivity.this, LoginActivity.class);
                     startActivity(i);
                     break;

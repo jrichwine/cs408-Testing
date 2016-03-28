@@ -348,7 +348,6 @@ public class HomeActivity extends AppCompatActivity  {
             switch(result)
             {
                 case "0":
-                    SaveSharedPreference.clear(HomeActivity.this);
                     Intent i = new Intent(HomeActivity.this, LoginActivity.class);
                     startActivity(i);
                     break;
