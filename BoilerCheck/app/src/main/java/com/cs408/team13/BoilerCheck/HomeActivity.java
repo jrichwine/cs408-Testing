@@ -92,8 +92,6 @@ public class HomeActivity extends AppCompatActivity  {
         if (BoilerCheck.CurrentBuilding == null) {
             mTextView.setTextColor(Color.RED);
             mTextView.setText("Not Checked In");
-            mCheckoutButton.setEnabled(false);
-            mCheckoutButton.setVisibility(View.INVISIBLE);
         }
         else {
             mTextView.setTextColor(Color.WHITE);
@@ -149,8 +147,6 @@ public class HomeActivity extends AppCompatActivity  {
         if (BoilerCheck.CurrentBuilding == null) {
             mTextView.setTextColor(Color.RED);
             mTextView.setText("Not Checked In");
-            mCheckoutButton.setEnabled(false);
-            mCheckoutButton.setVisibility(View.INVISIBLE);
         }
         else {
             mTextView.setTextColor(Color.WHITE);
@@ -304,7 +300,7 @@ public class HomeActivity extends AppCompatActivity  {
 
                 RequestParams rparams = new RequestParams();
 
-                BoilerCheck.RestClient.post("logout", rparams, new AsyncHttpResponseHandler(Looper.getMainLooper()) {
+                BoilerCheck.RestClient.post("/logout", rparams, new AsyncHttpResponseHandler(Looper.getMainLooper()) {
 
                     @Override
                     public void onStart() {
@@ -348,7 +344,6 @@ public class HomeActivity extends AppCompatActivity  {
             switch(result)
             {
                 case "0":
-                    SaveSharedPreference.clear(HomeActivity.this);
                     Intent i = new Intent(HomeActivity.this, LoginActivity.class);
                     startActivity(i);
                     break;

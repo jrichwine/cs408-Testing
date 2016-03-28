@@ -47,10 +47,8 @@ public class ListActivity extends AppCompatActivity {
         switch(item.getItemId()) {
             case R.id.action_logout:
                 attemptLogout();
-                break;
             case R.id.action_refresh:
                 attemptRefresh();
-                break;
             default:
                 break;
         }
@@ -77,7 +75,7 @@ public class ListActivity extends AppCompatActivity {
 
                 RequestParams rparams = new RequestParams();
 
-                BoilerCheck.RestClient.post("logout", rparams, new AsyncHttpResponseHandler(Looper.getMainLooper()) {
+                BoilerCheck.RestClient.post("/logout", rparams, new AsyncHttpResponseHandler(Looper.getMainLooper()) {
 
                     @Override
                     public void onStart() {
@@ -121,7 +119,6 @@ public class ListActivity extends AppCompatActivity {
             switch(result)
             {
                 case "0":
-                    SaveSharedPreference.clear(ListActivity.this);
                     Intent i = new Intent(ListActivity.this, LoginActivity.class);
                     startActivity(i);
                     break;
