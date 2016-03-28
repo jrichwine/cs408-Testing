@@ -19,12 +19,12 @@ public class Building implements Comparable<Building> {
         if (!(anotherBuilding instanceof Building))
             throw new ClassCastException("A Building object expected.");
         double anotherBuildingDistance = BoilerCheck.locationService.calculateDistance(
-                anotherBuilding.Coordinates[0], anotherBuilding.Coordinates[1],BoilerCheck.locationService.getLatitude(),
-                BoilerCheck.locationService.getLongitude());
+                (int)anotherBuilding.Coordinates[0], (int)anotherBuilding.Coordinates[1], (int)BoilerCheck.locationService.getLatitude(),
+                (int)BoilerCheck.locationService.getLongitude());
 
         double currentBuildingDistance = BoilerCheck.locationService.calculateDistance(
-                this.Coordinates[0], this.Coordinates[1], BoilerCheck.locationService.getLatitude(),
-                BoilerCheck.locationService.getLongitude());
+                (int)this.Coordinates[0], (int)this.Coordinates[1], (int)BoilerCheck.locationService.getLatitude(),
+                (int)BoilerCheck.locationService.getLongitude());
         return (int)(anotherBuildingDistance - currentBuildingDistance);
     }
 }

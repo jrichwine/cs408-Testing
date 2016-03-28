@@ -32,37 +32,24 @@ public class Buildings {
 
         for(Building b : BoilerCheck.loadedBuildings.Buildings) {
             double[] buildingLocation = b.Coordinates;
-            double distance = BoilerCheck.locationService.calculateDistance(userLat, userLong, buildingLocation[0], buildingLocation[1]);
-            b.distance = (int)distance;
+            double distance = BoilerCheck.locationService.calculateDistance((int)userLat, (int)userLong, (int)buildingLocation[0], (int)buildingLocation[1]);
             if (distance < shortestDistance) {
                 shortestDistance = distance;
                 closestBuilding = b;
             }
         }
         Log.i("SHORTEST DISTANCE: ", shortestDistance + "meters");
-        if(isClose(shortestDistance)) {
             shortestDistance = Double.MAX_VALUE;
             return closestBuilding;
-        }
-        else {
-            shortestDistance = Double.MAX_VALUE;
-            return null;
-        }
     }
 
-    public boolean isClose(double distance) {
-        if(distance < 30)
-            return true;
-
-        return false;
-    }
 
     public void nameSort() {
         Arrays.sort(Buildings, NAME_ORDER);
     }
 
     public void distanceSort() {
-        Arrays.sort(Buildings, Collections.reverseOrder());
+        Arrays.sort(Buildings);
     }
 
 

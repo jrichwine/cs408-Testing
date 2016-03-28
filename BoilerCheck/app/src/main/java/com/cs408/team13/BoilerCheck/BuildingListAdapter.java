@@ -102,7 +102,7 @@ public class BuildingListAdapter extends BaseAdapter {
                     Building closestBuilding = BoilerCheck.loadedBuildings.nearestBuilding();
                     if(closestBuilding != null && currentBuilding.equals(closestBuilding.BuildingName)) {
                         //If close enough, send building to check-in Route
-                        if(BoilerCheck.CurrentBuilding == null) {
+                        if(BoilerCheck.CurrentBuilding == null || BoilerCheck.CurrentBuilding != null) {
                             BoilerCheck.CurrentBuilding = currentBuilding;
                             mCheckInTask = new CheckInTask(currentBuilding, view.getContext());
                             mCheckInTask.execute((Void) null);

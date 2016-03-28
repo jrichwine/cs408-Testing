@@ -23,8 +23,8 @@ public class LocationService implements GoogleApiClient.ConnectionCallbacks, Goo
 
     private GoogleApiClient client;
     private Location lastLocation;
-    private double latitude;
-    private double longitude;
+    private int latitude;
+    private int longitude;
     private LocationRequest locationRequest;
     private Context context;
     private CheckOutTask mCheckOutTask = null;
@@ -68,7 +68,7 @@ public class LocationService implements GoogleApiClient.ConnectionCallbacks, Goo
         return client;
     }
 
-    public double calculateDistance(double lat1, double long1, double lat2, double long2) {
+    public double calculateDistance(int lat1, int long1, int lat2, int long2) {
 
         Location locA = new Location("locA");
         locA.setLatitude(lat1);
@@ -137,8 +137,8 @@ public class LocationService implements GoogleApiClient.ConnectionCallbacks, Goo
             LocationServices.FusedLocationApi.requestLocationUpdates(client, locationRequest,  this);
             lastLocation = LocationServices.FusedLocationApi.getLastLocation(client);
             if (lastLocation != null) {
-                latitude = lastLocation.getLatitude();
-                longitude = lastLocation.getLongitude();
+                latitude = (int)lastLocation.getLatitude();
+                longitude = (int)lastLocation.getLongitude();
             }
             Log.i("OnConnected", "Location services is connected" + " " + latitude + " " + longitude);
         }
@@ -163,32 +163,9 @@ public class LocationService implements GoogleApiClient.ConnectionCallbacks, Goo
     @Override
     public void onLocationChanged(Location location) {
         lastLocation = location;
-        latitude = location.getLatitude();
-        longitude = location.getLongitude();
+        latitude = (int)location.getLatitude();
+        longitude = (int)location.getLongitude();
         Toast.makeText(context, "Location has changed", Toast.LENGTH_LONG);
-        if(BoilerCheck.loadedBuildings != null) {
-            Building closestBuilding = BoilerCheck.loadedBuildings.nearestBuilding();
-            if(BoilerCheck.CurrentBuilding != null && (closestBuilding == null || !(closestBuilding.BuildingName.equals(BoilerCheck.CurrentBuilding)))) {
-                Toast.makeText(context, "Not at checked-in building. Trying to Checkout of Building.", Toast.LENGTH_SHORT).show();
-                mCheckOutTask = new CheckOutTask(context);
-                mCheckOutTask.execute((Void) null);
-
-                Toast.makeText(context, "Not at checked-in building. Successfully checked out of: " + BoilerCheck.CurrentBuilding, Toast.LENGTH_SHORT).show();
-                BoilerCheck.CurrentBuilding = null;
-
-                //How to determine if home calls it or buildinglistadapter calls it?
-                if((Activity) context instanceof HomeActivity )
-                {
-                    mRefreshCapacityTask = new RefreshCapacityTask(context, 2);
-                    mRefreshCapacityTask.execute((Void) null);
-                }
-                else
-                {
-                    mRefreshCapacityTask = new RefreshCapacityTask(context, 1);
-                    mRefreshCapacityTask.execute((Void) null);
-                }
-            }
-        }
     }
 
     private boolean checkGooglePlayServices() {
