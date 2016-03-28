@@ -22,8 +22,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/stuff"
-        android:touchscreenBlocksFocus="false"
-        android:background="#d1f7f7f7">
+        android:touchscreenBlocksFocus="false">
 
         <LinearLayout
             android:orientation="vertical"
