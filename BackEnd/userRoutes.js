@@ -64,7 +64,7 @@ userRoutes.get('/refreshCapacity', function (request, response) {
     
     //Read Total Capacity from DB
     buildingModel.collection.find({}, { BuildingName: true, CurrentCapacity: true }).toArray(function (err, docs) {
-        response.send(docs);
+        response.send(docs[0]);
     });
 });
 
@@ -87,17 +87,10 @@ userRoutes.get('/getBuildings', function (request, response) {
 function updateCapacity(buildingName, status) {
     buildingModel.findOne({ 'BuildingName': buildingName }, function (err, building) {
 
-        if (status == true)
-            building.CurrentCapacity += 1;
-        else
+        if (status == false)
             building.CurrentCapacity -= 1;
 
-        building.save(function (err) {
-            if (err)
-                throw err;
-            else {
-                console.log("Updated Current Capacity of: " + building.BuildingName + " To: " + building.CurrentCapacity);
-            }
-        });
+
+            console.log("Updated Current Capacity of: " + building.BuildingName + " To: " + building.CurrentCapacity);
     });
 }
