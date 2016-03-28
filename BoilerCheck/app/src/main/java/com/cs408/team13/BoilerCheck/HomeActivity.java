@@ -92,8 +92,6 @@ public class HomeActivity extends AppCompatActivity  {
         if (BoilerCheck.CurrentBuilding == null) {
             mTextView.setTextColor(Color.RED);
             mTextView.setText("Not Checked In");
-            mCheckoutButton.setEnabled(false);
-            mCheckoutButton.setVisibility(View.INVISIBLE);
         }
         else {
             mTextView.setTextColor(Color.WHITE);
@@ -149,8 +147,6 @@ public class HomeActivity extends AppCompatActivity  {
         if (BoilerCheck.CurrentBuilding == null) {
             mTextView.setTextColor(Color.RED);
             mTextView.setText("Not Checked In");
-            mCheckoutButton.setEnabled(false);
-            mCheckoutButton.setVisibility(View.INVISIBLE);
         }
         else {
             mTextView.setTextColor(Color.WHITE);
