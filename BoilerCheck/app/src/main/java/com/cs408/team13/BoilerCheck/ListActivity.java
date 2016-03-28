@@ -47,10 +47,8 @@ public class ListActivity extends AppCompatActivity {
         switch(item.getItemId()) {
             case R.id.action_logout:
                 attemptLogout();
-                break;
             case R.id.action_refresh:
                 attemptRefresh();
-                break;
             default:
                 break;
         }
