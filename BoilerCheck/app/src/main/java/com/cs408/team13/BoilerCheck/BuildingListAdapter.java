@@ -31,11 +31,16 @@ public class BuildingListAdapter extends BaseAdapter {
     public BuildingListAdapter(Context ctx, int filt) {
         this.ctx = ctx;
         this.filt = filt;
+        sortBuildings();
+    }
+
+    public BuildingListAdapter sortBuildings() {
         this.build = new ArrayList<Building>();
         for (Building a : BoilerCheck.loadedBuildings.Buildings) {
             if (a.Category.equals(ctx.getString(filt)))
                 this.build.add(a);
         }
+        return this;
     }
 
     public class ViewHolder {
@@ -78,23 +83,22 @@ public class BuildingListAdapter extends BaseAdapter {
             holder.checkIn = (Button) view.findViewById(R.id.check_in);
             holder.checkOut = (Button) view.findViewById(R.id.check_out);
             view.setTag(holder);
-            final ViewHolder final_holder = holder;
-            final int final_position = position;
-            view.setOnClickListener(new View.OnClickListener() {
+            /*view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (final_holder.expanded.getVisibility() == View.GONE) {
-                        final_holder.expanded.setVisibility(View.VISIBLE);
+                    if (((ViewHolder)v.getTag()).expanded.getVisibility() == View.GONE) {
+                        ((ViewHolder)v.getTag()).expanded.setVisibility(View.VISIBLE);
                     } else {
-                        final_holder.expanded.setVisibility(View.GONE);
+                        ((ViewHolder)v.getTag()).expanded.setVisibility(View.GONE);
                     }
                 }
-            });
+            });*/
+
             holder.checkIn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
 
-                    String currentBuilding = build.get(final_position).BuildingName;
+                    String currentBuilding = build.get((Integer)v.getTag()).BuildingName;
                     Toast.makeText(view.getContext(), "Trying to Check-in to:" + currentBuilding, Toast.LENGTH_SHORT).show();
 
                     //Send building to see if it is close enough to user to be checked in
@@ -129,7 +133,7 @@ public class BuildingListAdapter extends BaseAdapter {
 
                 }
                     else if(BoilerCheck.CurrentBuilding != null) {
-                        Toast.makeText(view.getContext(), "Already Checked Into: " + currentBuilding + ". Please Checkout First.", Toast.LENGTH_LONG).show();
+                        Toast.makeText(view.getContext(), "Already Checked Into: " + BoilerCheck.CurrentBuilding + ". Please Checkout First.", Toast.LENGTH_LONG).show();
                     }
                     else {
                         Toast.makeText(view.getContext(), "Not Close Enough To: " + currentBuilding + " To Check-in.", Toast.LENGTH_LONG).show();
@@ -176,7 +180,7 @@ public class BuildingListAdapter extends BaseAdapter {
             view = convertView;
             holder = (ViewHolder)view.getTag();
         }
-
+        holder.checkIn.setTag(position);
         holder.name.setText(build.get(position).BuildingName);
         holder.currCap.setText(Integer.toString(build.get(position).CurrentCapacity));
         holder.totCap.setText(Integer.toString(build.get(position).TotalCapacity));
