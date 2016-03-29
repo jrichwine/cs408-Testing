@@ -102,7 +102,7 @@ app.post('/login', function(req, res, next) {
                 
            
           
-               switch(err.ID)
+              /* switch(err)
                {
                    case 2:
                             console.log(err.message);
@@ -121,7 +121,7 @@ app.post('/login', function(req, res, next) {
                   default:
                             res.sendStatus(400);
                             break;         
-               }
+               }*/
                 
   })(req, res, next);
 });
