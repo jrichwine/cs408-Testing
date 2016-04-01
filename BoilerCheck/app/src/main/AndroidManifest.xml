@@ -40,8 +40,7 @@
             android:label="@string/title_activity_create_account"
             android:windowSoftInputMode="stateVisible|adjustPan"/>
         <activity
-            android:name=".HomeActivity"
-            android:windowSoftInputMode="stateVisible|adjustPan">
+            android:name=".HomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

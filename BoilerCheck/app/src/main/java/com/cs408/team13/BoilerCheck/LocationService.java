@@ -177,14 +177,14 @@ public class LocationService implements GoogleApiClient.ConnectionCallbacks, Goo
                 BoilerCheck.CurrentBuilding = null;
 
                 //How to determine if home calls it or buildinglistadapter calls it?
-                if((Activity) context instanceof HomeActivity )
+                if(/*(Activity)*/ !(context instanceof ListActivity) )
                 {
                     mRefreshCapacityTask = new RefreshCapacityTask(context, 2);
                     mRefreshCapacityTask.execute((Void) null);
                 }
                 else
                 {
-                    mRefreshCapacityTask = new RefreshCapacityTask(context, 1);
+                    mRefreshCapacityTask = new RefreshCapacityTask(context, 3); //special case where sorting needs to happen
                     mRefreshCapacityTask.execute((Void) null);
                 }
             }

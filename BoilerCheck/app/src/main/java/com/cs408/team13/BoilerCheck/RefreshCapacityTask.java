@@ -83,6 +83,8 @@ public class RefreshCapacityTask extends AsyncTask<Void, Void, String>
         if (caller == 2)
             return "0";
 
+        if (caller == 3)
+            return "3";
         return "2";
     }
 
@@ -96,9 +98,13 @@ public class RefreshCapacityTask extends AsyncTask<Void, Void, String>
             case "1": Toast.makeText(viewContext, "Failed Updated Capacities", Toast.LENGTH_SHORT).show();
                     break;
             case "2":
-                ((BuildingListAdapter)((ListView)((Activity)viewContext).findViewById(R.id.building_list)).getAdapter()).notifyDataSetChanged();
+                ((BuildingListAdapter)((ListView)((Activity)viewContext).findViewById(R.id.building_list)).getAdapter()).notifyDataSetInvalidated();
                     //async task is complete, do something else, like refresh listview
                     break;
+            case "3":
+                BoilerCheck.loadedBuildings.distanceSort();
+                ((BuildingListAdapter)((ListView)((Activity)viewContext).findViewById(R.id.building_list)).getAdapter()).sortBuildings().notifyDataSetInvalidated();
+                break;
         }
     }
 }
