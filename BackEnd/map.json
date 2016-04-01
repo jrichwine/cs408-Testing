@@ -18,9 +18,9 @@
 	{"BuildingName": "Ford Dining Court",  "Category": "eating", "Coordinates": [40.428648, -86.920887], "TotalCapacity": 70, "CurrentCapacity": 0}, 
 	{"BuildingName": "Windsor Dining Court",  "Category": "eating", "Coordinates": [40.426879, -86.921059], "TotalCapacity": 50, "CurrentCapacity": 0},
 	{"BuildingName": "France A. Córdova Recreational Sports Center", "Category": "recreation", "Coordinates": [40.428380, -86.922383], "TotalCapacity": 400, "CurrentCapacity": 0},
- 	{"BuildingName": "Lawson",  "Category": "study", "Coordinates": [40.427713, -86.916974], "TotalCapacity": 10, "CurrentCapacity": 0}
- 	{"BuildingName": "Mackey Arena",  "Category": "recreation", "Coordinates": [40.433326, -86.916050], "TotalCapacity": 10000, "CurrentCapacity": 0}
- 	{"BuildingName": "Harry's Chocolate Shop",  "Category": "recreation", "Coordinates": [40.423843, -86.909036], "TotalCapacity": 100, "CurrentCapacity": 0}
- 	{"BuildingName": "Where Else Bar",  "Category": "recreation", "Coordinates": [40.422940, -86.908082], "TotalCapacity": 100, "CurrentCapacity": 0}
+ 	{"BuildingName": "Lawson",  "Category": "study", "Coordinates": [40.427713, -86.916974], "TotalCapacity": 10, "CurrentCapacity": 0},
+ 	{"BuildingName": "Mackey Arena",  "Category": "recreation", "Coordinates": [40.433326, -86.916050], "TotalCapacity": 10000, "CurrentCapacity": 0},
+ 	{"BuildingName": "Harry's Chocolate Shop",  "Category": "recreation", "Coordinates": [40.423843, -86.909036], "TotalCapacity": 100, "CurrentCapacity": 0},
+ 	{"BuildingName": "Where Else Bar",  "Category": "recreation", "Coordinates": [40.422940, -86.908082], "TotalCapacity": 100, "CurrentCapacity": 0},
  	{"BuildingName": "Brother's Bar & Grill",  "Category": "recreation", "Coordinates": [40.424040, -86.908367], "TotalCapacity": 100, "CurrentCapacity": 0}
 ]}
