@@ -1,0 +1,5 @@
+To access the project, extract the folder and go to Game->bin->Debug->Game. It is the first file in the Debug folder. 
+
+SETUP: Microsoft Casino is written in C#. It must be run on a Windows machine running the .NET Framework 4. To run the application, unzip the zip folder. Then go to Game->Game->bin->Debug->Game (first option in Debug folder). NOTE: You may have to install the latest version of Powerpack packages to compile in Visual Studio.
+
+OVERVIEW: On startup, you are greeted with a menu with options for either playing Video Poker or Video Blackjack. Video poker is a simple five card draw style of poker allowing one round to draw a new hand, and following a very simply structured payout order. Blackjack is a simplified version of blackjack which doesn’t allow many of the advanced options found in complete blackjack, it is simply a basic hit or stand style of blackjack. This is a brief rundown of our application’s offerings, a help menu is provided in the games to give a more thorough explanation.
